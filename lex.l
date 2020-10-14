@@ -1,88 +1,124 @@
-/*lex.l for the project part 1*/
-%option main
-digit  [0-9]
-sign  [+-]
-or_operator \|\|
-and_operator \&\&
-xor_operator x\|
-if-then_op \=\>
-if-biconditional_op \<\=\>
-not_operator \!
-isequal_operator \=\=
-lessthan_operator \<\<
-lessthan-equal_operator \<\<\=
-greaterthan_operator \>\>
-greaterthan-equal_operator \>\>\=
-letter [A-Za-z_$]
-newline \n
-character ( {digit}|{letter}|<|>|!|@|#|$|%|^|&|*|(|)|_|+|}|{|]|[|”|:|\|’|;|,|.|/|)
-left_pth \(
-right_pth \)
-left_curly \{
-right_curly \}
-left_sqr-bracket \[
-right_sqr-bracket \]
-assignment_operator \<\-
-true true
-false false
-truth_value ({true}|{false})
-quot \"
-alphanumeric ({letter}|{digit})
-plus \+
-minus \-
-mult \*
-divi \/
-semicolon \;
-increment \+\+
-decrement \-\-
-comment #
-whitespace [ \t\n]
+alphabetic                  [A-Za-z]
+digit                       [0-9]
+INTEGER                     [+-]?{digit}+
+STRING                      \".*\" 
+space                       [ \t]+
+alphanumeric                ({alphabetic}|{digit})
+FLOAT 						{digit}*(\.){digit}+
+LOGIC 					    (true|false)
+TYPE                        (int|float|string|boolean|connection)
+VARIABLE                    {alphabetic}{alphanumeric}*
+DOT                         \.
+LP                          \(
+RP                          \)
+SMALLERTHAN                 \<
+BIGGERTHAN                  \>
+BIGGEREQUAL                 \>\=
+SMALLEREQUAL                \<\=
+EQUAL                       \=\=
+ASSIGN                      is
+NOTEQUAL                    \!\=
+WHILE                       while
+FOR                         for
+IF                          if
+ELSE                        else 
+THEN                        then 
+END                         end 
+START                       start
+NOT                         not
+RETURN                      return
+CONST                       const
+AND                         \&\&
+OR                          \|\|                    
+COMMA                       ,
+COMMENT                     ##.*
+TIMESTAMP                   timestamp
+CONNECT                     connect
+DISCONNECT                  disconnect
+SWITCHES                    switches
+SENDDATATOSENSOR            sendDataToSensor
+READDATAFROMSENSOR          readDataFromSensor
+GETURL                      getURL
+SENDURL                     sendURL
+FUNC                        func
+EOL                         ;
+GETTEMPERATURE              getTemperature
+GETHUMIDITY                 getHumidity
+GETAIRPRESSURE              getAirPressure
+GETLIGHT                    getLight
+GETSOUNDLEVEL               getSoundLevel
+GETAIRQUALITY               getAirQuality
+OPEN                        open
+CLOSE                       close
+CHOSENSWITCH                SW[0-9]+
+FROM                        from
+TO                          to
+BY                          by
+PLUS                        \+
+MINUS                       \-
+DIVIDE                      \/
+MULT                        \*
+REMAINDER                   %          
 %%
-{or_operator}                          {printf("OR_OPERATOR ");}
-{and_operator}                         {printf("AND_OPERATOR ");}
-{xor_operator}                         {printf("XOR_OPERATOR ");}
-{if-then_op}                           {printf("IF-THEN_OP ");}
-{if-biconditional_op}                  {printf("IF-BICONDITIONAL_OP ");}
-{not_operator}                         {printf("NOT_OPERATOR ");}
-{isequal_operator}                     {printf("ISEQUAL_OPERTOR ");}
-{lessthan_operator}                    {printf("LESSTHAN_OPERATOR ");}
-{greaterthan_operator}                 {printf("GREATERTHAN_OPERATOR ");}
-{greaterthan-equal_operator}           {printf("GREATERTHAN_EQUAL ");}
-{lessthan-equal_operator}              {printf("LESSTHAN_EQUAL ");}
-{left_pth}                             {printf("LEFT_PARENTHESIS ");}
-{right_pth}                            {printf("RIGHT_PARENTHESIS ");}
-{left_curly}                           {printf("LEFT_CURLY ");}
-{right_curly}                          {printf("RIGHT_CURLY ");}
-{left_sqr-bracket}                     {printf("LEFT_SQUARE_BRACKET ");}
-{right_sqr-bracket}                    {printf("RIGHT_SQUARE_BRACKET ");}
-{assignment_operator}                  {printf("ASSIGNMENT_OPERATOR ");}
-{plus}                                 {printf("PLUS ");}
-{minus}                                {printf("MINUS ");}
-{mult}                                 {printf("MULTIPLICATION ");}
-{divi}                                 {printf("DIVISION ");}
-{semicolon}                            {printf("SEMICOLON ");}
-{increment}                            {printf("INCREMENT ");}
-{decrement}                            {printf("DECREMENT ");}
-{true}                                 {printf("TRUE ");}
-{false}                                {printf("FALSE ");}
-while                                  {printf("WHILE ");}
-for                                    {printf("FOR ");}
-do                                     {printf("DO ");}
-if                                     {printf("IF ");}
-else                                   {printf("ELSE ");}
-readbool                               {printf("READ_BOOLEAN ");}
-readinteger                            {printf("READ_INTEGER ");}
-write                                  {printf("WRITE ");}
-constvar                               {printf("CONST_VAR ");}
-boolvar                                {printf("BOOLEAN_VAR ");}
-intvar                                 {printf("INTEGER_VAR ");}
-void                                   {printf("VOID ");}
-public                                 {printf("PUBLIC ");}
-protected                              {printf("PROTECTED ");}
-private                                {printf("PRIVATE ");}
-fixed                                  {printf("FIXED ");}
-{newline}                              {printf("\n");}
-[\#]([ \t\n]+|[a-zA-Z0-9]*)+           {printf("COMMENT");}
-{sign}{digit}+                         {printf("INTEGER ");}
-{letter}|({alphanumeric}|_)*           {printf("IDENTIFIER ");}
-quot.quot                              {printf("SENTENCE ");}
+"\n"  {
+			 extern int lineno;
+			 lineno++;
+}
+{START} {return(START);}
+{REMAINDER}         { return(REMAINDER ); }
+{PLUS}         { return(PLUS ); }
+{MINUS}         { return(MINUS ); }
+{DIVIDE}         { return(DIVIDE ); }
+{MULT}         { return(MULT ); }
+{BY}         { return(BY ); }
+{TO}         { return(TO ); }
+{FROM}       { return(FROM ); }
+{STRING}     { return(STRING ); }
+{INTEGER}    { return(INTEGER ); }
+{CHOSENSWITCH}       { return(CHOSENSWITCH ); }
+{OPEN}       { return(OPEN ); }
+{CLOSE}       { return(CLOSE ); }
+{GETAIRQUALITY}       { return(GETAIRQUALITY ); }
+{GETSOUNDLEVEL}       { return(GETSOUNDLEVEL ); }
+{GETLIGHT}       { return(GETLIGHT ); }
+{GETAIRPRESSURE}       { return(GETAIRPRESSURE ); }
+{GETHUMIDITY}       { return(GETHUMIDITY ); }
+{GETTEMPERATURE}       { return(GETTEMPERATURE ); }
+{RETURN}               { return(RETURN ); }
+{CONST}               { return(CONST ); }
+{EOL}               { return(EOL ); }
+{EQUAL}               { return(EQUAL ); }
+{FUNC}                { return(FUNC ); }
+{READDATAFROMSENSOR}  { return(READDATAFROMSENSOR ); }
+{SENDDATATOSENSOR}  { return(SENDDATATOSENSOR ); }
+{SENDURL}              { return(SENDURL ); }
+{GETURL}              { return(GETURL ); }
+{TIMESTAMP}           { return(TIMESTAMP ); }
+{CONNECT}             { return(CONNECT ); }
+{DISCONNECT}          { return(DISCONNECT ); }
+{SWITCHES}            { return(SWITCHES ); }
+{WHILE}               { return(WHILE ); }
+{FOR}                 { return(FOR ); }
+{IF}                  { return(IF ); }
+{ELSE}                { return(ELSE ); }
+{THEN}                { return(THEN ); }
+{END}                 { return(END ); }
+{NOT}                 { return(NOT ); }
+{NOTEQUAL}            { return(NOTEQUAL ); }
+{AND}                 { return(AND ); }
+{OR}                  { return(OR ); }
+{FLOAT}               { return(FLOAT ); }
+{LOGIC}               { return(LOGIC ); }
+{SMALLEREQUAL}           { return(SMALLEREQUAL ); }
+{BIGGEREQUAL}        { return(BIGGEREQUAL ); }
+{SMALLERTHAN}            { return(SMALLERTHAN ); }
+{BIGGERTHAN}         { return(BIGGERTHAN ); }
+{LP}                  { return(LP ); }
+{RP}                  { return(RP ); }
+{ASSIGN}              { return(ASSIGN); }
+{COMMA}               { return(COMMA); }
+{TYPE}                { return(TYPE ); }
+{VARIABLE}            { return(VARIABLE); }
+{COMMENT}             { return(COMMENT ); }
+%%
+int yywrap() { return 1; }
