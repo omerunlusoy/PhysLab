@@ -1,47 +1,42 @@
 ## Mechanism to define a connection to a given URL
 connection var;
-var is connect("www.bilkent.edu.tr");
+var <= connect("www.bilkent.edu.tr");
 ## if the user knows sensor number they can directly read data
-firstSensorData is readDataFromSensor(var); ## 01 for temperature
-string url is getURL(var); 
+firstSensorData <= readDataFromSensor(var); ## 01 for temperature
+string url <= getURL(var); 
 sendURL(var,3) ## Mechanisms to send/receive an integer at a time,from/to a connection 
-const int iotDevices is 7 ; 
-int timestampData is timestamp();
-float level;
-int y is getAirPressure();
+const int: iotDevices <= 7 ; 
+int: timestampData <= timestamp();
+float: level;
+int: y <= getAirPressure();
 close(SW3)
-for(z from 0 to 7 by 1) start
-    while( timestamp() < 123456789 )start
-  	if ( 0 == timestamp()) then 
-      start
-	x is x+(y/z) ;
-	end
-	else
-	start
-	x is x/z+y ;
-	end
-    end
-  level is getSoundLevel();
-  int light is 7;
-  int temperature is getTemperature();
-   if (temperature > getTemperature()) then
-     start
-     light is getLight();
-	end
-     if (light != 3) then
-	   start
-	   boolean air is  getAirQuality(); ## if air quality is fine,true
-	   end
-     else
-	start
+for iter in 0...7 by 1 {
+    while timestamp() < 123456789 {
+  	if timestamp() == 0 {
+		x <= x+(y/z) ;
+	}
+	else {
+	x <= x/z+y ;
+	}
+    }
+  level <= getSoundLevel();
+  int: light <= 7;
+  int: temperature <= getTemperature();
+   if temperature > getTemperature() {
+     light <= getLight();
+   }
+     if light != 3 {
+	   boolean air <= getAirQuality(); 	## if air quality is fine,true
+     }
+     else {
 	##A(light);
-	end
-    end		
-func A (int x) then
-	x is x + 1;
+     }
+}	
+func dummy (int: x) -> int: result {
+	x <= x + 1;
     open(SW3)
     return x;
-end
+}
 
-float humudity is getHumidity();
+float: humudity <= getHumidity();
 disconnect()
