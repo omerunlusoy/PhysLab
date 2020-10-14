@@ -1,45 +1,47 @@
-# this is comment FYI
-# variable declarations
-boolvar bool1;
-Boolvar bool2, bool3, boolN;
-intvar integer1;
-constvar integervar const_integer1 <- 1234;
-constvar boolvar const_bool1 <- false;
+## Mechanism to define a connection to a given URL
+connection var;
+var is connect("www.bilkent.edu.tr");
+## if the user knows sensor number they can directly read data
+firstSensorData is readDataFromSensor(var); ## 01 for temperature
+string url is getURL(var); 
+sendURL(var,3) ## Mechanisms to send/receive an integer at a time,from/to a connection 
+const int iotDevices is 7 ; 
+int timestampData is timestamp();
+float level;
+int y is getAirPressure();
+close(SW3)
+for(z from 0 to 7 by 1) start
+    while( timestamp() < 123456789 )start
+  	if ( 0 == timestamp()) then 
+      start
+	x is x+(y/z) ;
+	end
+	else
+	start
+	x is x/z+y ;
+	end
+    end
+  level is getSoundLevel();
+  int light is 7;
+  int temperature is getTemperature();
+   if (temperature > getTemperature()) then
+     start
+     light is getLight();
+	end
+     if (light != 3) then
+	   start
+	   boolean air is  getAirQuality(); ## if air quality is fine,true
+	   end
+     else
+	start
+	##A(light);
+	end
+    end		
+func A (int x) then
+	x is x + 1;
+    open(SW3)
+    return x;
+end
 
-boolvar[] arr1, arr2;
-arr1[0] <- false;
-arr2[1]    <- arr[0];
-
-# constant sentences
-constant “Man is mortal!” <- false;
-
-bool1 <- true;
-bool2 <- true;
-readbool bool3;
-integer1 <- 5;
-# increment and decrement
-integer1++;
-integer1--;
-
-if(!“Man is mortal!” && (bool1 || bool3) && !(const_integer1 >> integer1)){
-    integer1 <- integer1 * (integert1 + 2) + integer1;
-}else{
-write “No Way Dude!”;
-}
-
-while (boolN == true){
-    readinteger integer1;
-    boolN <- integer%2;
-}
-
-void foo(boolvar bool, integervar integer){
-    write bool;
-    write integer;
-}
-
-boolvar foo2(){
-    return false;
-}
-
-foo(true, 8);
-bool1 <- foo2();
+float humudity is getHumidity();
+disconnect()
