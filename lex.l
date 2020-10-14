@@ -69,7 +69,7 @@ REMAINDER                   %
 {PLUS}         		{ return(PLUS ); }
 {MINUS}         	{ return(MINUS ); }
 {DIVIDE}         	{ return(DIVIDE ); }
-{MULT}        		 { return(MULT ); }
+{MULT}        		{ return(MULT ); }
 {BY}         		{ return(BY ); }
 {TO}         		{ return(TO ); }
 {FROM}       		{ return(FROM ); }
