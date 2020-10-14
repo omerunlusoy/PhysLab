@@ -12,11 +12,11 @@ DOT                         \.
 LP                          \(
 RP                          \)
 SMALLERTHAN                 \<
-BIGGERTHAN                  \>
-BIGGEREQUAL                 \>\=
+GREATERTHAN                 \>
+GREATEREQUAL                \>\=
 SMALLEREQUAL                \<\=
 EQUAL                       \=\=
-ASSIGN                      is
+ASSIGN                      <=
 NOTEQUAL                    \!\=
 WHILE                       while
 FOR                         for
@@ -64,61 +64,61 @@ REMAINDER                   %
 			 extern int lineno;
 			 lineno++;
 }
-{START} {return(START);}
-{REMAINDER}         { return(REMAINDER ); }
-{PLUS}         { return(PLUS ); }
-{MINUS}         { return(MINUS ); }
-{DIVIDE}         { return(DIVIDE ); }
-{MULT}         { return(MULT ); }
-{BY}         { return(BY ); }
-{TO}         { return(TO ); }
-{FROM}       { return(FROM ); }
-{STRING}     { return(STRING ); }
-{INTEGER}    { return(INTEGER ); }
-{CHOSENSWITCH}       { return(CHOSENSWITCH ); }
-{OPEN}       { return(OPEN ); }
-{CLOSE}       { return(CLOSE ); }
-{GETAIRQUALITY}       { return(GETAIRQUALITY ); }
-{GETSOUNDLEVEL}       { return(GETSOUNDLEVEL ); }
-{GETLIGHT}       { return(GETLIGHT ); }
-{GETAIRPRESSURE}       { return(GETAIRPRESSURE ); }
-{GETHUMIDITY}       { return(GETHUMIDITY ); }
-{GETTEMPERATURE}       { return(GETTEMPERATURE ); }
-{RETURN}               { return(RETURN ); }
-{CONST}               { return(CONST ); }
-{EOL}               { return(EOL ); }
-{EQUAL}               { return(EQUAL ); }
-{FUNC}                { return(FUNC ); }
-{READDATAFROMSENSOR}  { return(READDATAFROMSENSOR ); }
-{SENDDATATOSENSOR}  { return(SENDDATATOSENSOR ); }
-{SENDURL}              { return(SENDURL ); }
-{GETURL}              { return(GETURL ); }
-{TIMESTAMP}           { return(TIMESTAMP ); }
-{CONNECT}             { return(CONNECT ); }
-{DISCONNECT}          { return(DISCONNECT ); }
-{SWITCHES}            { return(SWITCHES ); }
-{WHILE}               { return(WHILE ); }
-{FOR}                 { return(FOR ); }
-{IF}                  { return(IF ); }
-{ELSE}                { return(ELSE ); }
-{THEN}                { return(THEN ); }
-{END}                 { return(END ); }
-{NOT}                 { return(NOT ); }
-{NOTEQUAL}            { return(NOTEQUAL ); }
-{AND}                 { return(AND ); }
-{OR}                  { return(OR ); }
-{FLOAT}               { return(FLOAT ); }
-{LOGIC}               { return(LOGIC ); }
-{SMALLEREQUAL}           { return(SMALLEREQUAL ); }
-{BIGGEREQUAL}        { return(BIGGEREQUAL ); }
-{SMALLERTHAN}            { return(SMALLERTHAN ); }
-{BIGGERTHAN}         { return(BIGGERTHAN ); }
-{LP}                  { return(LP ); }
-{RP}                  { return(RP ); }
-{ASSIGN}              { return(ASSIGN); }
-{COMMA}               { return(COMMA); }
-{TYPE}                { return(TYPE ); }
-{VARIABLE}            { return(VARIABLE); }
-{COMMENT}             { return(COMMENT ); }
+{START} 		{return(START);}
+{REMAINDER}         	{ return(REMAINDER ); }
+{PLUS}         		{ return(PLUS ); }
+{MINUS}         	{ return(MINUS ); }
+{DIVIDE}         	{ return(DIVIDE ); }
+{MULT}        		 { return(MULT ); }
+{BY}         		{ return(BY ); }
+{TO}         		{ return(TO ); }
+{FROM}       		{ return(FROM ); }
+{STRING}     		{ return(STRING ); }
+{INTEGER}    		{ return(INTEGER ); }
+{CHOSENSWITCH}       	{ return(CHOSENSWITCH ); }
+{OPEN}      		{ return(OPEN ); }
+{CLOSE}     		{ return(CLOSE ); }
+{GETAIRQUALITY}    	{ return(GETAIRQUALITY ); }
+{GETSOUNDLEVEL}         { return(GETSOUNDLEVEL ); }
+{GETLIGHT}       	{ return(GETLIGHT ); }
+{GETAIRPRESSURE}        { return(GETAIRPRESSURE ); }
+{GETHUMIDITY}       	{ return(GETHUMIDITY ); }
+{GETTEMPERATURE}        { return(GETTEMPERATURE ); }
+{RETURN}                { return(RETURN ); }
+{CONST}                 { return(CONST ); }
+{EOL}               	{ return(EOL ); }
+{EQUAL}                 { return(EQUAL ); }
+{FUNC}                  { return(FUNC ); }
+{READDATAFROMSENSOR}    { return(READDATAFROMSENSOR ); }
+{SENDDATATOSENSOR}  	{ return(SENDDATATOSENSOR ); }
+{SENDURL}               { return(SENDURL ); }
+{GETURL}                { return(GETURL ); }
+{TIMESTAMP}             { return(TIMESTAMP ); }
+{CONNECT}               { return(CONNECT ); }
+{DISCONNECT}            { return(DISCONNECT ); }
+{SWITCHES}              { return(SWITCHES ); }
+{WHILE}                 { return(WHILE ); }
+{FOR}                   { return(FOR ); }
+{IF}                    { return(IF ); }
+{ELSE}                  { return(ELSE ); }
+{THEN}                  { return(THEN ); }
+{END}                   { return(END ); }
+{NOT}                   { return(NOT ); }
+{NOTEQUAL}              { return(NOTEQUAL ); }
+{AND}                   { return(AND ); }
+{OR}                    { return(OR ); }
+{FLOAT}                 { return(FLOAT ); }
+{LOGIC}                 { return(LOGIC ); }
+{SMALLEREQUAL}     	{ return(SMALLEREQUAL ); }
+{BIGGEREQUAL}           { return(BIGGEREQUAL ); }
+{SMALLERTHAN}           { return(SMALLERTHAN ); }
+{BIGGERTHAN}            { return(BIGGERTHAN ); }
+{LP}                  	{ return(LP ); }
+{RP}                  	{ return(RP ); }
+{ASSIGN}              	{ return(ASSIGN); }
+{COMMA}               	{ return(COMMA); }
+{TYPE}                	{ return(TYPE ); }
+{VARIABLE}            	{ return(VARIABLE); }
+{COMMENT}             	{ return(COMMENT ); }
 %%
 int yywrap() { return 1; }
