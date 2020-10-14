@@ -5,7 +5,7 @@ var <= connect("www.bilkent.edu.tr");
 
 ## if the user knows sensor number they can directly read data
 
-firstSensorData <= readDataFromSensor(var); ## 01 for temperature
+firstSensorData <= readDataFromSensor(var); 	## 01 for temperature
 string url <= getURL(var); 
 sendURL(var,3) 					## Mechanisms to send/receive an integer at a time,from/to a connection 
 const int: iotDevices <= 7 ; 
