@@ -58,7 +58,8 @@ PLUS                        \+
 MINUS                       \-
 DIVIDE                      \/
 MULT                        \*
-REMAINDER                   %          
+REMAINDER                   \%  
+COLON			    \:
 %%
 "\n"  {
 			 extern int lineno;
