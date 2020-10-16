@@ -8,6 +8,7 @@ space                       [ \t]+
 newline						\\n
 
 VARIABLE 					{alphabetic}{alphanumeric}*
+TYPE                        (int|double|string|char|bool)
 
 INTEGER						[+-]?{digit}+
 DOUBLE						{digit}*(\.){digit}+
@@ -72,6 +73,11 @@ DISCONNECT					disconnect
 {newline}					{printf("\n");}
 
 {VARIABLE} 					{printf("VARIABLE");}
+{int}						{printf("int");}
+{double}					{printf("double");}
+{string}					{printf("string");}
+{char}						{printf("char");}
+{bool}						{printf("bool");}
 
 {INTEGER}					{printf("INTEGER");}
 {DOUBLE}					{printf("DOUBLE");}
