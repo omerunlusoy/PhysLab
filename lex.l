@@ -1,119 +1,136 @@
-alphabetic                  [A-Za-z]
+/*lex.l file for the Project 1*/
+%option main
+
 digit                       [0-9]
-INTEGER                     [+-]?{digit}+
-STRING                      \".*\" 
-space                       [ \t]+
+alphabetic                  [A-Za-z]
 alphanumeric                ({alphabetic}|{digit})
-FLOAT 						{digit}*(\.){digit}+
-LOGIC 					    (true|false)
-TYPE                        (int|float|string|boolean|connection)
-VARIABLE                    {alphabetic}{alphanumeric}*
-DOT                         \.
-LP                          \(
-RP                          \)
-SMALLERTHAN                 \<
-GREATERTHAN                 \>
-GREATEREQUAL                \>\=
-SMALLEREQUAL                \<\=
-EQUAL                       \=\=
-ASSIGN                      \<\=
-NOTEQUAL                    \!\=
-WHILE                       while
-FOR                         for
-IF                          if
-ELSE                        else 
-RETURN                      return
-CONST                       const
-AND                         \&\&
-OR                          \|\|                    
-COMMA                       ,
-COMMENT                     //.*
-TIMESTAMP                   timestamp
-CONNECT                     connect
-DISCONNECT                  disconnect
-SWITCHES                    switches
-SENDDATATOSENSOR            sendDataToSensor
-READDATAFROMSENSOR          readDataFromSensor
-GETURL                      getURL
-SENDURL                     sendURL
-FUNC                        func
-EOL                         ;
-GETTEMPERATURE              getTemperature
-GETHUMIDITY                 getHumidity
-GETAIRPRESSURE              getAirPressure
-GETLIGHT                    getLight
-GETSOUNDLEVEL               getSoundLevel
-GETAIRQUALITY               getAirQuality
-OPEN                        open
-CLOSE                       close
-CHOSENSWITCH                SW[0-9]+
-BY                          by
-PLUS                        \+
-MINUS                       \-
-DIVIDE                      \/
-MULT                        \*
-REMAINDER                   \%  
-COLON			    \:
+space                       [ \t]+
+newline						\\n
+
+VARIABLE 					{alphabetic}{alphanumeric}*
+
+INTEGER						[+-]?{digit}+
+DOUBLE						{digit}*(\.){digit}+
+BOOLEAN						(true|false)
+STRING						\".*\" 
+CHARACTER					[A-Za-z]			
+
+COMMENTLINE					//.*
+
+FOR                     	for
+WHILE 						while
+IF							if
+ELSE						else
+IN 							in
+FORDOT						\.\.\.
+BY							by
+CONST						const
+FUNC 						func
+RETURN						return
+
+LBRACKET 					\{
+RBRACKET					\}
+LP							\(
+RP							\)
+
+TRUE 						true
+FALSE 						false
+
+COLON						\:
+COMMA						\,
+DOT							\.
+FUNCTIONOUT					\-\>
+ASSIGN						\<\=
+
+EQUALITY					\=\=
+UNEQUALTY					\!\=
+GREATERTHAN					\>
+GREATEREQUAL				\>\=
+SMALLERTHAN					\<
+SMALLEREQUAL				\<\=
+AND							\&\&
+OR							\|\|
+PLUS						\+
+MINUS						\-
+MULTIPLY					\*
+DIVIDE						\/
+REMAINDER					\%
+
+GETINCLINATION				getInclination
+GETALTITUDE					getAltitude
+GETTEMPERATURE				getTemperature
+GETACCELERATION				getAcceleration
+STREAMON					streamOn
+STREAMOFF					streamOff
+TAKEPIC						takePic
+GETTIMESTAMP				getTimestamp
+CONNECT						connect
+DISCONNECT					disconnect
+
 %%
-"\n"  {
-			 extern int lineno;
-			 lineno++;
-}
-{START} 		{return(START);}
-{REMAINDER}         	{ return(REMAINDER ); }
-{PLUS}         		{ return(PLUS ); }
-{MINUS}         	{ return(MINUS ); }
-{DIVIDE}         	{ return(DIVIDE ); }
-{MULT}        		{ return(MULT ); }
-{BY}         		{ return(BY ); }
-{TO}         		{ return(TO ); }
-{FROM}       		{ return(FROM ); }
-{STRING}     		{ return(STRING ); }
-{INTEGER}    		{ return(INTEGER ); }
-{CHOSENSWITCH}       	{ return(CHOSENSWITCH ); }
-{OPEN}      		{ return(OPEN ); }
-{CLOSE}     		{ return(CLOSE ); }
-{GETAIRQUALITY}    	{ return(GETAIRQUALITY ); }
-{GETSOUNDLEVEL}         { return(GETSOUNDLEVEL ); }
-{GETLIGHT}       	{ return(GETLIGHT ); }
-{GETAIRPRESSURE}        { return(GETAIRPRESSURE ); }
-{GETHUMIDITY}       	{ return(GETHUMIDITY ); }
-{GETTEMPERATURE}        { return(GETTEMPERATURE ); }
-{RETURN}                { return(RETURN ); }
-{CONST}                 { return(CONST ); }
-{EOL}               	{ return(EOL ); }
-{EQUAL}                 { return(EQUAL ); }
-{FUNC}                  { return(FUNC ); }
-{READDATAFROMSENSOR}    { return(READDATAFROMSENSOR ); }
-{SENDDATATOSENSOR}  	{ return(SENDDATATOSENSOR ); }
-{SENDURL}               { return(SENDURL ); }
-{GETURL}                { return(GETURL ); }
-{TIMESTAMP}             { return(TIMESTAMP ); }
-{CONNECT}               { return(CONNECT ); }
-{DISCONNECT}            { return(DISCONNECT ); }
-{SWITCHES}              { return(SWITCHES ); }
-{WHILE}                 { return(WHILE ); }
-{FOR}                   { return(FOR ); }
-{IF}                    { return(IF ); }
-{ELSE}                  { return(ELSE ); }
-{THEN}                  { return(THEN ); }
-{END}                   { return(END ); }
-{NOT}                   { return(NOT ); }
-{NOTEQUAL}              { return(NOTEQUAL ); }
-{AND}                   { return(AND ); }
-{OR}                    { return(OR ); }
-{FLOAT}                 { return(FLOAT ); }
-{LOGIC}                 { return(LOGIC ); }
-{SMALLEREQUAL}     	{ return(SMALLEREQUAL ); }
-{BIGGEREQUAL}           { return(BIGGEREQUAL ); }
-{SMALLERTHAN}           { return(SMALLERTHAN ); }
-{BIGGERTHAN}            { return(BIGGERTHAN ); }
-{LP}                  	{ return(LP ); }
-{RP}                  	{ return(RP ); }
-{ASSIGN}              	{ return(ASSIGN); }
-{COMMA}               	{ return(COMMA); }
-{TYPE}                	{ return(TYPE ); }
-{VARIABLE}            	{ return(VARIABLE); }
-{COMMENT}             	{ return(COMMENT ); }
+
+{newline}					{printf("\n");}
+
+{VARIABLE} 					{printf("VARIABLE");}
+
+{INTEGER}					{printf("INTEGER");}
+{DOUBLE}					{printf("DOUBLE");}
+{BOOLEAN}					{printf("BOOLEAN");}
+{STRING}					{printf("STRING");}
+{CHARACTER}					{printf("CHARACTER");}			
+
+{COMMENTLINE}				{printf("COMMENTLINE");}
+
+{FOR}                     	{printf("FOR");}
+{WHILE} 					{printf("WHILE");}
+{IF}						{printf("IF");}
+{ELSE}						{printf("ELSE");}
+{IN} 						{printf("IN");}
+{FORDOT}					{printf("FORDOT");}
+{BY}						{printf("BY");}
+{CONST}						{printf("CONST");}
+{FUNC} 						{printf("FUNC");}
+{RETURN}					{printf("RETURN");}
+
+{LBRACKET}					{printf("LBRACKET");}
+{RBRACKET}					{printf("RBRACKET");}
+{LP}						{printf("LP");}
+{RP}						{printf("RP");}
+
+{TRUE} 						{printf("TRUE");}
+{FALSE} 					{printf("FALSE");}
+
+{COLON}						{printf("COLON");}
+{COMMA}						{printf("COMMA");}
+{DOT}						{printf("DOT");}
+{FUNCTIONOUT}				{printf("FUNCTIONOUT");}
+{ASSIGN}					{printf("ASSIGN");}
+
+{EQUALITY}					{printf("EQUALITY");}
+{UNEQUALTY}					{printf("UNEQUALTY");}
+{GREATERTHAN}				{printf("GREATERTHAN");}
+{GREATEREQUAL}				{printf("GREATEREQUAL");}
+{SMALLERTHAN}				{printf("SMALLERTHAN");}
+{SMALLEREQUAL}				{printf("SMALLEREQUAL");}
+{AND}						{printf("AND");}
+{OR}						{printf("OR");}
+{PLUS}						{printf("PLUS");}
+{MINUS}						{printf("MINUS");}
+{MULTIPLY}					{printf("MULTIPLY");}
+{DIVIDE}					{printf("DIVIDE");}
+{REMAINDER}					{printf("REMAINDER");}
+
+{GETINCLINATION}			{printf("GETINCLINATION");}
+{GETALTITUDE}				{printf("GETALTITUDE");}
+{GETTEMPERATURE}			{printf("GETTEMPERATURE");}
+{GETACCELERATION}			{printf("GETACCELERATION");}
+{STREAMON}					{printf("STREAMON");}
+{STREAMOFF}					{printf("STREAMOFF");}
+{TAKEPIC}					{printf("TAKEPIC");}
+{GETTIMESTAMP}				{printf("GETTIMESTAMP");}
+{CONNECT}					{printf("CONNECT");}
+{DISCONNECT}				{printf("DISCONNECT");}
+
 %%
+
 int yywrap() { return 1; }
