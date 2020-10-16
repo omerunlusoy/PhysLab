@@ -16,7 +16,7 @@ GREATERTHAN                 \>
 GREATEREQUAL                \>\=
 SMALLEREQUAL                \<\=
 EQUAL                       \=\=
-ASSIGN                      <=
+ASSIGN                      \<\=
 NOTEQUAL                    \!\=
 WHILE                       while
 FOR                         for
@@ -31,7 +31,7 @@ CONST                       const
 AND                         \&\&
 OR                          \|\|                    
 COMMA                       ,
-COMMENT                     ##.*
+COMMENT                     //.*
 TIMESTAMP                   timestamp
 CONNECT                     connect
 DISCONNECT                  disconnect
