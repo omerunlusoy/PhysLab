@@ -1,17 +1,17 @@
-## Mechanism to define a connection to a given URL
+// Mechanism to define a connection to a given URL
 
-connection var;
-var <= connect("www.bilkent.edu.tr");
+connection var
+var <= connect("www.bilkent.edu.tr")
 
-## if the user knows sensor number they can directly read data
+// if the user knows sensor number they can directly read data
 
-firstSensorData <= readDataFromSensor(var); 	## 01 for temperature
-string url <= getURL(var); 
-sendURL(var,3) 					## Mechanisms to send/receive an integer at a time,from/to a connection 
-const int: iotDevices <= 7 ; 
-int: timestampData <= timestamp();
-float: level;
-int: y <= getAirPressure();
+firstSensorData <= readDataFromSensor(var) 	// 01 for temperature
+string url <= getURL(var)
+sendURL(var,3) 					// Mechanisms to send/receive an integer at a time,from/to a connection 
+const int: iotDevices <= 7 
+int: timestampData <= timestamp()
+float: level
+int: y <= getAirPressure()
 close(SW3)
 
 for iter in 0...7 by 2 {
@@ -20,31 +20,31 @@ for iter in 0...7 by 2 {
 for iter in 0...7 {
     while timestamp() < 123456789 {
   	if timestamp() == 0 {
-		x <= x+(y/z) ;
+		x <= x+(y/z) 
 	}
 	else {
-	x <= x/z+y ;
+	x <= x/z+y 
 	}
     }
-  level <= getSoundLevel();
-  int: light <= 7;
-  int: temperature <= getTemperature();
+  level <= getSoundLevel()
+  int: light <= 7
+  int: temperature <= getTemperature()
    if temperature > getTemperature() {
-     light <= getLight();
+     light <= getLight()
    }
      if light != 3 {
-	   boolean air <= getAirQuality(); 	## if air quality is fine,true
+	   boolean air <= getAirQuality()     	## if air quality is fine,true
      }
      else {
-	##A(light);
+	//A(light)
      }
 }
 
 func dummy (int: x) -> int: result {
-	x <= x + 1;
+	x <= x + 1
     open(SW3)
-    return x;
+    return x
 }
 
-float: humudity <= getHumidity();
+float: humudity <= getHumidity()
 disconnect()
