@@ -14,7 +14,10 @@ float: level;
 int: y <= getAirPressure();
 close(SW3)
 
-for iter in 0...7 by 1 {
+for iter in 0...7 by 2 {
+}
+
+for iter in 0...7 {
     while timestamp() < 123456789 {
   	if timestamp() == 0 {
 		x <= x+(y/z) ;
