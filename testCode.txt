@@ -1,54 +1,55 @@
-// Mechanism to define a connection to a given URL
+// Test Code
 
-connection()
-var <= connect("www.bilkent.edu.tr")
+connect()
 
-// if the user knows sensor number they can directly read data
-
-firstSensorData <= readDataFromSensor(var) 	// 01 for temperature
-string url <= getURL(var)
-sendURL(var,3) 					// Mechanisms to send/receive an integer at a time,from/to a connection 
+int: firstSensorData <= readDataFromSensor(var) 	
+string: url <= getURL(var)
+sendURL(var,3) 					
 const int: iotDevices <= 7 
 int: timestampData <= timestamp()
-float: level
+double: level
 int: y <= getAirPressure()
 close(SW3)
 
-for iter1 0...2{
+for iter 0...2 {
+	print("iter: ", iter)
 }
 
-for iter in 0...7 by 2 {
+for iter in 0...6 by 2 {
+	print("iter: ", iter)
 }
 
 for iter in 0...7 {
-    while timestamp() < 123456789 {
+  while timestamp() < 123456789 {
   	if timestamp() == 0 {
-		x <= x+(y/z) 
+		x <= x + (y / z) 
 	}
 	else {
-	x <= x/z+y 
+		x <= x / z + y 
 	}
-    }
+  }
   level <= getSoundLevel()
   int: light
-  int: light <= 7
+  light <= 7
+  
   int: temperature <= getTemperature()
-   if temperature > getTemperature() {
-     light <= getLight()
-   }
-     if light != 3 {
-	   boolean air <= getAirQuality()     	## if air quality is fine,true
-     }
-     else {
-	//A(light)
-     }
+  if temperature > getTemperature() {
+  	light <= getLight()
+  }
+  if light != 3 {
+  	boolean air <= getAirQuality()     	
+  }
+  else {
+  	print(light)
+  }
 }
 
 func dummy (int: x) -> int: result {
 	x <= x + 1
-    open(SW3)
-    return x
+    	open(SW3)
+    	return x
 }
 
 float: humudity <= getHumidity()
+
 disconnect()
