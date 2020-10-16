@@ -22,10 +22,6 @@ WHILE                       while
 FOR                         for
 IF                          if
 ELSE                        else 
-THEN                        then 
-END                         end 
-START                       start
-NOT                         not
 RETURN                      return
 CONST                       const
 AND                         \&\&
@@ -51,8 +47,6 @@ GETAIRQUALITY               getAirQuality
 OPEN                        open
 CLOSE                       close
 CHOSENSWITCH                SW[0-9]+
-FROM                        from
-TO                          to
 BY                          by
 PLUS                        \+
 MINUS                       \-
