@@ -1,6 +1,6 @@
 // Mechanism to define a connection to a given URL
 
-connection var
+connection()
 var <= connect("www.bilkent.edu.tr")
 
 // if the user knows sensor number they can directly read data
@@ -13,6 +13,9 @@ int: timestampData <= timestamp()
 float: level
 int: y <= getAirPressure()
 close(SW3)
+
+for iter1 0...2{
+}
 
 for iter in 0...7 by 2 {
 }
@@ -27,6 +30,7 @@ for iter in 0...7 {
 	}
     }
   level <= getSoundLevel()
+  int: light
   int: light <= 7
   int: temperature <= getTemperature()
    if temperature > getTemperature() {
