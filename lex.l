@@ -9,8 +9,8 @@ alphanumeric        {alphabetic}|{numeric}
 TAB                 "\t"
 NL                  "\n"
 
-VARIABLE 					<low_alphabetic><alphanumeric>*
-CONSTANT          <upp_alphabetic><alphanumeric>*
+VARIABLE 					{low_alphabetic}{alphanumeric}*
+CONSTANT          {upp_alphabetic}{alphanumeric}*
 TYPE              "int"|"double"|"string"|"bool"
 
 INTEGER						[+-]?{numeric}+
