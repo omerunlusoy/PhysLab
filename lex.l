@@ -41,9 +41,8 @@ FUNC 						  "func"
 RETURN						"return"
 SCAN              "scan"
 PRINT             "print"
-GET               "get"
 
-DRONE_GET		      “inclination” | “altitude” | “temperature” | “acceleration” | “timestamp”
+DRONE_GET		      “getInclination” | “getAltitude” | "getTemperature” | “getAcceleration” | “getTimestamp”
 TURN		          “turnCamera”	
 TAKE_PICTURE      “takePicture”
 CONNECT           “connectToBase”
