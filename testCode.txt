@@ -31,6 +31,7 @@ for iter in 0...7 {
   level <= getSoundLevel()
   int: light
   light <= 7
+  print light
   
   int: temperature <= getTemperature()
   if temperature > getTemperature() {
