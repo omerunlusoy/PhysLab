@@ -1,91 +1,81 @@
 /*lex.l file for the Project 1*/
 %option main
 
-digit                       [0-9]
-alphabetic                  [A-Za-z]
-alphanumeric                ({alphabetic}|{digit})
-space                       [ \t]+
-newline						\\n
+numeric             [0-9]
+alphabetic          [A-Za-z]
+low_alphabetic   	  [a-z]
+upp_alphabetic      [A-Z]
+alphanumeric        {alphabetic}|{numeric}
+TAB                 "\t"
+NL                  "\n"
 
-VARIABLE 					{alphabetic}{alphanumeric}*
-TYPE                        (int|double|string|char|bool)
+VARIABLE 					<low_alphabetic><alphanumeric>*
+CONSTANT          <upp_alphabetic><alphanumeric>*
+TYPE              "int"|"double"|"string"|"bool"
 
-INTEGER						[+-]?{digit}+
-DOUBLE						{digit}*(\.){digit}+
-BOOLEAN						(true|false)
-STRING						\".*\" 
-CHARACTER					[A-Za-z]			
+INTEGER						[+-]?{numeric}+
+DOUBLE						{numeric}*"."{numeric}+
+BOOLEAN						"true"|"false"|1|0
+STRING						[a-zA-Z]+			
 
-COMMENTLINE					//.*
+COMMENT           “%”
+FORDOT            “…”
+LBRACKET		      “{”
+RBRACKET          “}”
+LP			          “(”
+RP  			        “)”
+COMMA		          “,”
+ASSIGN		        “<=”
+COLON             “:”
+FOUT              “->”
 
-FOR                     	for
-WHILE 						while
-IF							if
-ELSE						else
-IN 							in
-FORDOT						\.\.\.
-BY							by
-CONST						const
-FUNC 						func
-RETURN						return
+FOR               "for"
+WHILE 						"while"
+IF							  "if"
+ELSE						  "else"
+IN 							  "in"
+FORDOT						"..."
+BY							  "by"
+CONST						  "const"
+FUNC 						  "func"
+RETURN						"return"
+SCAN              "scan"
+PRINT             "print"
+GET               "get"
 
-LBRACKET 					\{
-RBRACKET					\}
-LP							\(
-RP							\)
+DRONE_GET		      “inclination” | “altitude” | “temperature” | “acceleration” | “timestamp”
+TURN		          “turnCamera”	
+TAKE_PICTURE      “takePicture”
+CONNECT           “connectToBase”
+DISCONNECT        "disconnectFromBase"
 
-TRUE 						true
-FALSE 						false
+EQUAL             "=="
+NOTEQUAL          "!="
+LESSTHANOREQUAL   "=<"
+GREATERTHANOREQUAL "=>"
+LESSTHAN           "<"
+GREATERTHAN        ">"
+AND                "and"
+OR                 "or"
 
-COLON						\:
-COMMA						\,
-DOT							\.
-FUNCTIONOUT					\-\>
-ASSIGN						\<\=
-
-EQUALITY					\=\=
-UNEQUALTY					\!\=
-GREATERTHAN					\>
-GREATEREQUAL				\>\=
-SMALLERTHAN					\<
-SMALLEREQUAL				\<\=
-AND							\&\&
-OR							\|\|
-PLUS						\+
-MINUS						\-
-MULTIPLY					\*
-DIVIDE						\/
-REMAINDER					\%
-
-GETINCLINATION				getInclination
-GETALTITUDE					getAltitude
-GETTEMPERATURE				getTemperature
-GETACCELERATION				getAcceleration
-STREAMON					streamOn
-STREAMOFF					streamOff
-TAKEPIC						takePic
-GETTIMESTAMP				getTimestamp
-CONNECT						connect
-DISCONNECT					disconnect
+PLUS                "+"
+MINUS               "-"
+MULTIPLY                "."
+DIVIDE              "/"
+MOD                 "%"
 
 %%
 
-{newline}					{printf("\n");}
+{NL}					{printf("TAB");}
+{TAB}         {printf("TAB");}
 
 {VARIABLE} 					{printf("VARIABLE");}
-{int}						{printf("int");}
-{double}					{printf("double");}
-{string}					{printf("string");}
-{char}						{printf("char");}
-{bool}						{printf("bool");}
-
-{INTEGER}					{printf("INTEGER");}
+{INTEGER}						{printf("INTEGER");}
 {DOUBLE}					{printf("DOUBLE");}
-{BOOLEAN}					{printf("BOOLEAN");}
 {STRING}					{printf("STRING");}
-{CHARACTER}					{printf("CHARACTER");}			
+{BOOLEAN}						{printf("BOOLEAN");}			
 
-{COMMENTLINE}				{printf("COMMENTLINE");}
+{COMMENT}				{printf("COMMENT");}
 
 {FOR}                     	{printf("FOR");}
 {WHILE} 					{printf("WHILE");}
@@ -103,37 +93,31 @@ DISCONNECT					disconnect
 {LP}						{printf("LP");}
 {RP}						{printf("RP");}
 
-{TRUE} 						{printf("TRUE");}
-{FALSE} 					{printf("FALSE");}
-
 {COLON}						{printf("COLON");}
 {COMMA}						{printf("COMMA");}
 {DOT}						{printf("DOT");}
-{FUNCTIONOUT}				{printf("FUNCTIONOUT");}
-{ASSIGN}					{printf("ASSIGN");}
+{FOUT}				{printf("FUNCTIONOUT");}
+{ASSIGN}					{printf("ASSIGN_SIGN");}
 
-{EQUALITY}					{printf("EQUALITY");}
-{UNEQUALTY}					{printf("UNEQUALTY");}
-{GREATERTHAN}				{printf("GREATERTHAN");}
-{GREATEREQUAL}				{printf("GREATEREQUAL");}
-{SMALLERTHAN}				{printf("SMALLERTHAN");}
-{SMALLEREQUAL}				{printf("SMALLEREQUAL");}
-{AND}						{printf("AND");}
-{OR}						{printf("OR");}
+{EQUAL}       {printf("EQUAL");}
+{NOTEQUAL}       {printf("NOTEQUAL");}
+{GREATERTHAN}       {printf("GREATERTHAN");}
+{LESSTHAN}       {printf("LESSTHAN");}
+{GREATERTHANOREQUAL}       {printf("GREATERTHANOREQUALOP");}
+{LESSTHANOREQUAL}       {printf("LESSTHANOREQUALOP");}
+{AND}       {printf("ANDOP");}
+{OR}       {printf("OROP");}
+
+
 {PLUS}						{printf("PLUS");}
 {MINUS}						{printf("MINUS");}
 {MULTIPLY}					{printf("MULTIPLY");}
 {DIVIDE}					{printf("DIVIDE");}
-{REMAINDER}					{printf("REMAINDER");}
+{MOD}					{printf("REMAINDER");}
 
-{GETINCLINATION}			{printf("GETINCLINATION");}
-{GETALTITUDE}				{printf("GETALTITUDE");}
-{GETTEMPERATURE}			{printf("GETTEMPERATURE");}
-{GETACCELERATION}			{printf("GETACCELERATION");}
-{STREAMON}					{printf("STREAMON");}
-{STREAMOFF}					{printf("STREAMOFF");}
-{TAKEPIC}					{printf("TAKEPIC");}
-{GETTIMESTAMP}				{printf("GETTIMESTAMP");}
+{DRONE_GET}       {printf("GETATTR");}
+{TURN}            {printf("TURNCAMERA");}
+{TAKEPICTURE}     {printf("TAKEPICTURE");}
 {CONNECT}					{printf("CONNECT");}
 {DISCONNECT}				{printf("DISCONNECT");}
 
