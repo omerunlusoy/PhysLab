@@ -1,0 +1,87 @@
+connect()
+
+int: i1 <= 1
+double: d1 <= 1.1
+bool: b1 <= false
+string: s1 <= "String 1"
+
+const int: I2 <= 2
+const double: D2 <= 3.1234
+const bool: B2 <= true
+const string: S2 <= "String 2"
+
+int: firstSensorData <= getInclination()
+int: secondSensorData <= getAltitude()
+double: thirdSensorData <= getTemperature()	
+double: forthSensorData <= getAcceleration()
+int: fifthSensorData <= getTimestamp()
+
+string: url <= getURL()
+sendURL(var, 3) 	
+
+double: level
+level <= scan
+print level
+
+for iter in 0...2 {
+	print "iter: ", iter
+}
+
+for iter in 0...6 by 2 {
+	print "iter: ", iter
+}
+
+for iter in 0...7 {
+  while takePicture() < 123456789 {
+  	if turnCamera() == 0 {
+		  x <= x + (y / z) 
+	  }
+	  else {
+		  x <= x / z + y 
+	  }
+  }
+
+  level <= getSoundLevel()
+  int: light
+  light <= 7
+  print light
+  
+  int: temperature <= getTemperature()
+  if temperature > getTemperature() {
+  	light <= getLight()
+  }
+
+  if light != 3 {
+  	bool: air <= getAirQuality()     	
+  }
+
+  else {
+  	print light
+  }
+}
+
+func dummy (int: x) -> int: result {
+	x <= x + 1
+  return x
+}
+
+float: humidity <= getHumidity()
+
+func dummy2() {
+  int: a <= scan
+  int: b <= scan
+  if a =< 2 and b < 2{
+    print a or b
+  }
+  elif b == 2{
+    print a and b
+  }
+  elif a => 4{
+    print a
+  }
+  else{
+    print b
+  }
+}
+
+disconnect()
