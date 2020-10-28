@@ -36,7 +36,6 @@ FOR               	for
 WHILE 				while
 IF					if
 ELSE				else
-ELIF				elif
 IN 					in
 BY					by
 CONST				const
@@ -86,7 +85,6 @@ CONSTANT          	{upp_alphabetic}{alphanumeric}*
 {MULTIPLY}			{printf("MULTIPLY ");}
 {IF}				{printf("IF ");}
 {ELSE}				{printf("ELSE ");}
-{ELIF}				{printf("ELIF ");}
 {NL}				{printf("NL ");}
 {TAB}         		{printf("TAB ");}
 {FOR}               {printf("FOR ");}
