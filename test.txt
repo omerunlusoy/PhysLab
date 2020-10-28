@@ -43,15 +43,12 @@ main(){
     int: light
     light <= 7
     print light
+    bool: isLight = false
+    bool: isDark = true
     
     int: temperature <= getTemperature()
-    if temperature > getTemperature() {
+    if isLight & !isDark & light % 2 == 1 {
     	light <= 0
-    }
-
-    if light != 3 {
-    	bool: air = 0
-      print air    	
     }
 
     else {
@@ -64,7 +61,7 @@ main(){
     return x
   }
 
-  int: humidity dummy()
+  int: dummy1 <= dummy(3)
 
   func dummy2() {
     int: a <= scan
@@ -76,6 +73,7 @@ main(){
       print b
     }
   }
+  dummy2()
 
   disconnect()
 }

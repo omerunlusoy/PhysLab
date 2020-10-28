@@ -1,17 +1,18 @@
 /*lex.l file for the Project 1*/
 %option main
 COMMENT   			\/\/.*
+MAIN				main\(\)
 DOT 				\.
 TAB                 \\t
 NL                  \\n
-LBRACKET		    \{
-RBRACKET          	\}
+LB				    \{
+RB		          	\}
 LP			        \(
 RP  			    \)
 COMMA		        \,
 ASSIGN		        \<\=
 COLON             	\:
-FOUT              	\-\>
+FUNCTIONOUT        	\-\>
 FORDOT				\.\.\.
 EQUAL             	\=\=
 NOTEQUAL          	\!\=
@@ -19,9 +20,9 @@ LESSTHANOREQUAL   	\=\<
 GREATERTHANOREQUAL 	\=\>
 LESSTHAN           	\<
 GREATERTHAN        	\>
-AND                	&
-OR                 	|
-NOT					!
+AND                	\&
+OR                 	\|
+NOT					\!
 PLUS                \+
 MINUS               \-
 MULTIPLY            \*
@@ -43,16 +44,15 @@ FUNC 				func
 RETURN				return
 SCAN              	scan
 PRINT             	print
-MAIN				main
-CONNECT           	connect
-DISCONNECT        	disconnect
-GETINCLINATION 		getInclination
-GETALTITUDE			getAltitude
-GETTEMPRATURE		getTemperature
-GETACCELERATION		getAcceleration
-GETTIMESTAMP		getTimestamp
-TURN		        turnCamera
-TAKEPICTURE      	takePicture
+CONNECT           	connect\(\)
+DISCONNECT        	disconnect\(\)
+GETINCLINATION 		getInclination\(\)
+GETALTITUDE			getAltitude\(\)
+GETTEMPRATURE		getTemperature\(\)
+GETACCELERATION		getAcceleration\(\)
+GETTIMESTAMP		getTimestamp\(\)
+TURN		        turnCamera\(\)
+TAKEPICTURE      	takePicture\(\)
 numeric             [0-9]
 alphabetic          [A-Za-z]
 low_alphabetic   	[a-z]
@@ -60,16 +60,16 @@ upp_alphabetic      [A-Z]
 ALPHANUMERIC        {alphabetic}|{numeric}
 INTEGER				[+-]?{numeric}+
 DOUBLE				{numeric}*"."{numeric}+
-FUNCTION 			{low_alphabetic}{alphanumeric}*\(\)
+FUNCTION 			{low_alphabetic}{ALPHANUMERIC}*\(\)
 STRING				\"(\\.|[^"\\])*\"
-VARIABLE 		 	{low_alphabetic}{alphanumeric}*
-CONSTANT          	{upp_alphabetic}{alphanumeric}*
+VARIABLE 		 	{low_alphabetic}{ALPHANUMERIC}*
+CONSTANT          	{upp_alphabetic}{ALPHANUMERIC}*
 %%
+{MAIN} 				{printf("MAIN ");}
 {INTTYPE} 			{printf("INTTYPE ");}
 {DOUBLETYPE} 		{printf("DOUBLETYPE ");}
 {BOOLTYPE} 			{printf("BOOLTYPE ");}
 {STRINGTYPE} 		{printf("STRINGTYPE ");}
-{MAIN} 				{printf("MAIN ");}
 {GETINCLINATION} 	{printf("GETINCLINATION ");}
 {GETALTITUDE}		{printf("GETALTITUDE ");}
 {GETTEMPRATURE}		{printf("GETTEMPRATURE ");}
@@ -79,7 +79,6 @@ CONSTANT          	{upp_alphabetic}{alphanumeric}*
 {TURN}           	{printf("TURNCAMERA ");}
 {CONNECT}			{printf("CONNECT ");}
 {DISCONNECT}		{printf("DISCONNECT ");}
-{FUNCTION}			{printf("FUNCTION ");}
 {PRINT}				{printf("PRINT ");}
 {SCAN}				{printf("SCAN ");}
 {BOOLEAN}			{printf("BOOLEAN ");}
@@ -97,13 +96,13 @@ CONSTANT          	{upp_alphabetic}{alphanumeric}*
 {CONST}				{printf("CONST ");}
 {FUNC} 				{printf("FUNC ");}
 {RETURN}			{printf("RETURN ");}
-{LBRACKET}			{printf("LBRACKET ");}
-{RBRACKET}			{printf("RBRACKET ");}
+{LB}				{printf("LB ");}
+{RB}				{printf("RB ");}
 {LP}				{printf("LP ");}
 {RP}				{printf("RP ");}
 {COLON}				{printf("COLON ");}
 {COMMA}				{printf("COMMA ");}
-{FOUT}				{printf("FUNCTIONOUT ");}
+{FUNCTIONOUT}		{printf("FUNCTIONOUT ");}
 {ASSIGN}			{printf("ASSIGN ");}
 {EQUAL}       		{printf("EQUAL ");}
 {NOTEQUAL}       	{printf("NOTEQUAL ");}
@@ -122,3 +121,4 @@ CONSTANT          	{upp_alphabetic}{alphanumeric}*
 {DOUBLE}			{printf("DOUBLE ");}
 {STRING}			{printf("STRING ");}		
 {VARIABLE} 			{printf("VARIABLE ");}
+{FUNCTION}			{printf("FUNCTION ");}
