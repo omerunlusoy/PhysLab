@@ -27,10 +27,10 @@ MINUS               \-
 MULTIPLY            \*
 DIVIDE              \/
 MOD                 \%
-int 				int
-double 				double
-string 				string
-bool 				bool	
+INTTYPE 			int
+DOUBLETYPE 			double
+STRINGTYPE 			string
+BOOLTYPE 			bool	
 BOOLEAN				(true|false)
 FOR               	for
 WHILE 				while
@@ -43,6 +43,7 @@ FUNC 				func
 RETURN				return
 SCAN              	scan
 PRINT             	print
+MAIN				main
 CONNECT           	connect
 DISCONNECT        	disconnect
 GETINCLINATION 		getInclination
@@ -56,7 +57,7 @@ numeric             [0-9]
 alphabetic          [A-Za-z]
 low_alphabetic   	[a-z]
 upp_alphabetic      [A-Z]
-alphanumeric        {alphabetic}|{numeric}
+ALPHANUMERIC        {alphabetic}|{numeric}
 INTEGER				[+-]?{numeric}+
 DOUBLE				{numeric}*"."{numeric}+
 FUNCTION 			{low_alphabetic}{alphanumeric}*\(\)
@@ -64,10 +65,11 @@ STRING				\"(\\.|[^"\\])*\"
 VARIABLE 		 	{low_alphabetic}{alphanumeric}*
 CONSTANT          	{upp_alphabetic}{alphanumeric}*
 %%
-{int} 				{printf("INT_TYPE ");}
-{double} 			{printf("DOUBLE_TYPE ");}
-{bool} 				{printf("BOOL_TYPE ");}
-{string} 			{printf("STRING_TYPE ");}
+{INTTYPE} 			{printf("INTTYPE ");}
+{DOUBLETYPE} 		{printf("DOUBLETYPE ");}
+{BOOLTYPE} 			{printf("BOOLTYPE ");}
+{STRINGTYPE} 		{printf("STRINGTYPE ");}
+{MAIN} 				{printf("MAIN ");}
 {GETINCLINATION} 	{printf("GETINCLINATION ");}
 {GETALTITUDE}		{printf("GETALTITUDE ");}
 {GETTEMPRATURE}		{printf("GETTEMPRATURE ");}

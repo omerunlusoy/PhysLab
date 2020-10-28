@@ -1,80 +1,81 @@
 // Test Code
+main(){
+  connect()
 
-connect()
+  int: i1 <= 1
+  double: d1 <= 1.1
+  bool: b1 <= false
+  string: s1 <= "String 1"
 
-int: i1 <= 1
-double: d1 <= 1.1
-bool: b1 <= false
-string: s1 <= "String 1"
+  const int: I2 <= 2
+  const double: D2 <= 3.1234
+  const bool: B2 <= true
+  const string: S2 <= "String 2"
 
-const int: I2 <= 2
-const double: D2 <= 3.1234
-const bool: B2 <= true
-const string: S2 <= "String 2"
+  int: firstSensorData <= getInclination()
+  int: secondSensorData <= getAltitude()
+  double: thirdSensorData <= getTemperature()	
+  double: forthSensorData <= getAcceleration()
+  int: fifthSensorData <= getTimestamp()	
 
-int: firstSensorData <= getInclination()
-int: secondSensorData <= getAltitude()
-double: thirdSensorData <= getTemperature()	
-double: forthSensorData <= getAcceleration()
-int: fifthSensorData <= getTimestamp()	
+  double: level
+  level <= scan
+  print level
 
-double: level
-level <= scan
-print level
-
-for iter in 0...2 {
-	print "iter: ", iter
-}
-
-for iter in 0...6 by 2 {
-	print "iter: ", iter
-}
-
-for iter in 0...7 {
-  while takePicture() < 123456789 {
-  	if turnCamera() == 0 {
-		  x <= x + (y / z) 
-	  }
-	  else {
-		  x <= x / z + y 
-	  }
+  for iter in 0...2 {
+  	print "iter: ", iter
   }
 
-  int: light
-  light <= 7
-  print light
-  
-  int: temperature <= getTemperature()
-  if temperature > getTemperature() {
-  	light <= 0
+  for iter in 0...6 by 2 {
+  	print "iter: ", iter
   }
 
-  if light != 3 {
-  	bool: air = 0
-    print air    	
+  for iter in 0...7 {
+    while takePicture() < 123456789 {
+    	if turnCamera() == 0 {
+  		  x <= x + (y / z) 
+  	  }
+  	  else {
+  		  x <= x / z + y 
+  	  }
+    }
+
+    int: light
+    light <= 7
+    print light
+    
+    int: temperature <= getTemperature()
+    if temperature > getTemperature() {
+    	light <= 0
+    }
+
+    if light != 3 {
+    	bool: air = 0
+      print air    	
+    }
+
+    else {
+    	print light
+    }
   }
 
-  else {
-  	print light
+  func dummy (int: x) -> int: result {
+  	x <= x + 1
+    return x
   }
-}
 
-func dummy (int: x) -> int: result {
-	x <= x + 1
-  return x
-}
+  int: humidity dummy()
 
-int: humidity dummy()
-
-func dummy2() {
-  int: a <= scan
-  int: b <= scan
-  if a =< 2 & b < 2{
-    print a or b
-}
-  else{
-    print b
+  func dummy2() {
+    int: a <= scan
+    int: b <= scan
+    if a =< 2 & b < 2{
+      print a or b
   }
-}
+    else{
+      print b
+    }
+  }
 
-disconnect()
+  disconnect()
+}
