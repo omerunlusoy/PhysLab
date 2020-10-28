@@ -16,10 +16,7 @@ int: firstSensorData <= getInclination()
 int: secondSensorData <= getAltitude()
 double: thirdSensorData <= getTemperature()	
 double: forthSensorData <= getAcceleration()
-int: fifthSensorData <= getTimestamp()
-
-string: url <= getURL()
-sendURL(var, 3) 	
+int: fifthSensorData <= getTimestamp()	
 
 double: level
 level <= scan
@@ -43,18 +40,18 @@ for iter in 0...7 {
 	  }
   }
 
-  level <= getSoundLevel()
   int: light
   light <= 7
   print light
   
   int: temperature <= getTemperature()
   if temperature > getTemperature() {
-  	light <= getLight()
+  	light <= 0
   }
 
   if light != 3 {
-  	bool: air <= getAirQuality()     	
+  	bool: air = 0
+    print air    	
   }
 
   else {
@@ -67,12 +64,12 @@ func dummy (int: x) -> int: result {
   return x
 }
 
-float: humidity <= getHumidity()
+int: humidity dummy()
 
 func dummy2() {
   int: a <= scan
   int: b <= scan
-  if a =< 2 and b < 2{
+  if a =< 2 & b < 2{
     print a or b
   }
   elif b == 2{
