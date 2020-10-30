@@ -1,0 +1,2911 @@
+   0  $accept : program $end
+
+   1  program : MAIN LB statements RB
+
+   2  statements : statements statement
+   3             | empty
+
+   4  statement : statementBlockEl
+   5            | ifStatement
+
+   6  commentStatement : COMMENT VARIABLE
+   7                   | COMMENT CONST
+
+   8  ifStatement : matched
+   9              | unmatched
+
+  10  loopStatement : forLoop
+  11                | whileLoop
+
+  12  forLoop : FOR VARIABLE IN forTerm FORDOT forTerm forStepExp LB statements RB
+  13          | FOR VARIABLE IN forTerm FORDOT forTerm LB statements RB
+
+  14  whileLoop : WHILE logicCondition LB statements RB
+
+  15  assignment : VARIABLE ASSIGN assignmentExp
+
+  16  declaration : constantDec
+  17              | variableDec
+  18              | functionDec
+
+  19  constantDec : CONST type COLON CONSTANT ASSIGN assignmentExp
+
+  20  variableDec : type COLON VARIABLE
+  21              | type COLON VARIABLE ASSIGN assignmentExp
+  22              | type COLON VARIABLE ASSIGN SCAN
+
+  23  functionDec : FUNC VARIABLE parameterExp functionoutExp LB statements returnStatement RB
+  24              | FUNC VARIABLE parameterExp LB statements returnStatement RB
+
+  25  functionCall : VARIABLE LP RP
+  26               | VARIABLE LP callParamList RP
+  27               | outStatement
+  28               | inStatement
+  29               | drone_method
+
+  30  outStatement : PRINT printables
+
+  31  printables : printables COMMA assignmentExp
+  32             | assignmentExp
+
+  33  inStatement : VARIABLE ASSIGN SCAN
+
+  34  drone_method : droneGetMethod
+  35               | cameraStatus
+  36               | takePicture
+  37               | connect
+  38               | disconnect
+
+  39  droneGetMethod : droneGet
+
+  40  droneGet : GETACCELERATION
+  41           | GETALTITUDE
+  42           | GETINCLINATION
+  43           | GETTEMPERATURE
+  44           | GETTIMESTAMP
+
+  45  cameraStatus : TURNCAMERA
+
+  46  cameraParamList : STRING COMMA INTEGER
+
+  47  takePicture : TAKEPICTURE
+
+  48  connect : CONNECT
+
+  49  disconnect : DISCONNECT
+
+  50  returnStatement : RETURN assignmentExp
+  51                  | empty
+
+  52  assignmentExp : logicCondition
+  53                | STRING
+
+  54  logicCondition : logicCondition logicOp not_nonLogicExp
+  55                 | not_nonLogicExp
+
+  56  not_nonLogicExp : NOT nonLogicExp
+  57                  | nonLogicExp
+
+  58  nonLogicExp : functionCall
+  59              | BOOLEAN
+  60              | arithmeticExp
+
+  61  logicOp : EQUAL
+  62          | NOTEQUAL
+  63          | GREATERTHAN
+  64          | GREATERTHANOREQUAL
+  65          | LESSTHAN
+  66          | LESSTHANOREQUAL
+  67          | AND
+  68          | OR
+
+  69  arithmeticExp : arithmeticExp leastPrecMathOp multiplyDivide
+  70                | multiplyDivide
+
+  71  multiplyDivide : multiplyDivide mostPrecMathOp number
+  72                 | number
+
+  73  leastPrecMathOp : PLUS
+  74                  | MINUS
+
+  75  mostPrecMathOp : MULTIPLY
+  76                 | DIVIDE
+  77                 | REMAINDER
+
+  78  matched : IF logicCondition LB statementBlocks RB ELSE LB statementBlocks RB
+  79          | IF logicCondition LB matched RB ELSE LB statementBlocks RB
+  80          | IF logicCondition LB matched RB ELSE LB matched RB
+
+  81  unmatched : IF logicCondition LB statementBlocks RB
+  82            | IF logicCondition LB matched RB ELSE LB unmatched RB
+
+  83  type : INTTYPE
+  84       | DOUBLETYPE
+  85       | STRINGTYPE
+  86       | BOOLTYPE
+
+  87  statementBlocks : statementBlocks statementBlockEl
+  88                  | empty
+
+  89  statementBlockEl : commentStatement
+  90                   | declaration
+  91                   | assignment
+  92                   | loopStatement
+  93                   | functionCall
+
+  94  empty :
+
+  95  number : INTEGER
+  96         | DOUBLE
+  97         | VARIABLE
+
+  98  parameterExp : LP RP
+  99               | LP functionParams RP
+
+ 100  functionParams : functionParams COMMA functionParam
+ 101                 | functionParam
+
+ 102  functionParam : type COLON VARIABLE
+
+ 103  functionoutExp : FUNCTIONOUT functionParam
+
+ 104  forStepExp : BY INTEGER
+
+ 105  forTerm : VARIABLE
+ 106          | INTEGER
+ 107          | functionCall
+ 108          | LP arithmeticExp RP
+
+ 109  callParamList : callParamList COMMA funcCallParam
+ 110                | funcCallParam
+
+ 111  funcCallParam : VARIABLE
+ 112                | CONSTANT
+ 113                | INTEGER
+ 114                | DOUBLE
+ 115                | STRING
+ 116                | BOOLEAN
+
+state 0
+	$accept : . program $end  (0)
+
+	MAIN  shift 1
+	.  error
+
+	program  goto 2
+
+
+state 1
+	program : MAIN . LB statements RB  (1)
+
+	LB  shift 3
+	.  error
+
+
+state 2
+	$accept : program . $end  (0)
+
+	$end  accept
+
+
+state 3
+	program : MAIN LB . statements RB  (1)
+	empty : .  (94)
+
+	.  reduce 94
+
+	statements  goto 4
+	empty  goto 5
+
+
+state 4
+	program : MAIN LB statements . RB  (1)
+	statements : statements . statement  (2)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	RB  shift 11
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	IF  shift 27
+	.  error
+
+	statement  goto 28
+	statementBlockEl  goto 29
+	ifStatement  goto 30
+	commentStatement  goto 31
+	matched  goto 32
+	unmatched  goto 33
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 5
+	statements : empty .  (3)
+
+	.  reduce 3
+
+
+state 6
+	type : INTTYPE .  (83)
+
+	.  reduce 83
+
+
+state 7
+	type : DOUBLETYPE .  (84)
+
+	.  reduce 84
+
+
+state 8
+	type : BOOLTYPE .  (86)
+
+	.  reduce 86
+
+
+state 9
+	type : STRINGTYPE .  (85)
+
+	.  reduce 85
+
+
+state 10
+	assignment : VARIABLE . ASSIGN assignmentExp  (15)
+	functionCall : VARIABLE . LP RP  (25)
+	functionCall : VARIABLE . LP callParamList RP  (26)
+	inStatement : VARIABLE . ASSIGN SCAN  (33)
+
+	LP  shift 53
+	ASSIGN  shift 54
+	.  error
+
+
+state 11
+	program : MAIN LB statements RB .  (1)
+
+	.  reduce 1
+
+
+state 12
+	commentStatement : COMMENT . VARIABLE  (6)
+	commentStatement : COMMENT . CONST  (7)
+
+	VARIABLE  shift 55
+	CONST  shift 56
+	.  error
+
+
+state 13
+	constantDec : CONST . type COLON CONSTANT ASSIGN assignmentExp  (19)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	.  error
+
+	type  goto 57
+
+
+state 14
+	forLoop : FOR . VARIABLE IN forTerm FORDOT forTerm forStepExp LB statements RB  (12)
+	forLoop : FOR . VARIABLE IN forTerm FORDOT forTerm LB statements RB  (13)
+
+	VARIABLE  shift 58
+	.  error
+
+
+state 15
+	whileLoop : WHILE . logicCondition LB statements RB  (14)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	.  error
+
+	logicCondition  goto 64
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 16
+	functionDec : FUNC . VARIABLE parameterExp functionoutExp LB statements returnStatement RB  (23)
+	functionDec : FUNC . VARIABLE parameterExp LB statements returnStatement RB  (24)
+
+	VARIABLE  shift 71
+	.  error
+
+
+state 17
+	droneGet : GETINCLINATION .  (42)
+
+	.  reduce 42
+
+
+state 18
+	droneGet : GETALTITUDE .  (41)
+
+	.  reduce 41
+
+
+state 19
+	droneGet : GETTEMPERATURE .  (43)
+
+	.  reduce 43
+
+
+state 20
+	droneGet : GETACCELERATION .  (40)
+
+	.  reduce 40
+
+
+state 21
+	droneGet : GETTIMESTAMP .  (44)
+
+	.  reduce 44
+
+
+state 22
+	takePicture : TAKEPICTURE .  (47)
+
+	.  reduce 47
+
+
+state 23
+	cameraStatus : TURNCAMERA .  (45)
+
+	.  reduce 45
+
+
+state 24
+	connect : CONNECT .  (48)
+
+	.  reduce 48
+
+
+state 25
+	disconnect : DISCONNECT .  (49)
+
+	.  reduce 49
+
+
+state 26
+	outStatement : PRINT . printables  (30)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	STRING  shift 72
+	.  error
+
+	logicCondition  goto 73
+	assignmentExp  goto 74
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	printables  goto 75
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 27
+	matched : IF . logicCondition LB statementBlocks RB ELSE LB statementBlocks RB  (78)
+	matched : IF . logicCondition LB matched RB ELSE LB statementBlocks RB  (79)
+	matched : IF . logicCondition LB matched RB ELSE LB matched RB  (80)
+	unmatched : IF . logicCondition LB statementBlocks RB  (81)
+	unmatched : IF . logicCondition LB matched RB ELSE LB unmatched RB  (82)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	.  error
+
+	logicCondition  goto 76
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 28
+	statements : statements statement .  (2)
+
+	.  reduce 2
+
+
+state 29
+	statement : statementBlockEl .  (4)
+
+	.  reduce 4
+
+
+state 30
+	statement : ifStatement .  (5)
+
+	.  reduce 5
+
+
+state 31
+	statementBlockEl : commentStatement .  (89)
+
+	.  reduce 89
+
+
+state 32
+	ifStatement : matched .  (8)
+
+	.  reduce 8
+
+
+state 33
+	ifStatement : unmatched .  (9)
+
+	.  reduce 9
+
+
+state 34
+	statementBlockEl : loopStatement .  (92)
+
+	.  reduce 92
+
+
+state 35
+	loopStatement : forLoop .  (10)
+
+	.  reduce 10
+
+
+state 36
+	loopStatement : whileLoop .  (11)
+
+	.  reduce 11
+
+
+state 37
+	statementBlockEl : assignment .  (91)
+
+	.  reduce 91
+
+
+state 38
+	statementBlockEl : declaration .  (90)
+
+	.  reduce 90
+
+
+state 39
+	declaration : constantDec .  (16)
+
+	.  reduce 16
+
+
+state 40
+	declaration : variableDec .  (17)
+
+	.  reduce 17
+
+
+state 41
+	declaration : functionDec .  (18)
+
+	.  reduce 18
+
+
+state 42
+	variableDec : type . COLON VARIABLE  (20)
+	variableDec : type . COLON VARIABLE ASSIGN assignmentExp  (21)
+	variableDec : type . COLON VARIABLE ASSIGN SCAN  (22)
+
+	COLON  shift 77
+	.  error
+
+
+state 43
+	statementBlockEl : functionCall .  (93)
+
+	.  reduce 93
+
+
+state 44
+	functionCall : outStatement .  (27)
+
+	.  reduce 27
+
+
+state 45
+	functionCall : inStatement .  (28)
+
+	.  reduce 28
+
+
+state 46
+	functionCall : drone_method .  (29)
+
+	.  reduce 29
+
+
+state 47
+	drone_method : droneGetMethod .  (34)
+
+	.  reduce 34
+
+
+state 48
+	drone_method : cameraStatus .  (35)
+
+	.  reduce 35
+
+
+state 49
+	drone_method : takePicture .  (36)
+
+	.  reduce 36
+
+
+state 50
+	drone_method : connect .  (37)
+
+	.  reduce 37
+
+
+state 51
+	drone_method : disconnect .  (38)
+
+	.  reduce 38
+
+
+state 52
+	droneGetMethod : droneGet .  (39)
+
+	.  reduce 39
+
+
+state 53
+	functionCall : VARIABLE LP . RP  (25)
+	functionCall : VARIABLE LP . callParamList RP  (26)
+
+	VARIABLE  shift 78
+	INTEGER  shift 79
+	RP  shift 80
+	BOOLEAN  shift 81
+	DOUBLE  shift 82
+	STRING  shift 83
+	CONSTANT  shift 84
+	.  error
+
+	callParamList  goto 85
+	funcCallParam  goto 86
+
+
+state 54
+	assignment : VARIABLE ASSIGN . assignmentExp  (15)
+	inStatement : VARIABLE ASSIGN . SCAN  (33)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	SCAN  shift 87
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	STRING  shift 72
+	.  error
+
+	logicCondition  goto 73
+	assignmentExp  goto 88
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 55
+	commentStatement : COMMENT VARIABLE .  (6)
+
+	.  reduce 6
+
+
+state 56
+	commentStatement : COMMENT CONST .  (7)
+
+	.  reduce 7
+
+
+state 57
+	constantDec : CONST type . COLON CONSTANT ASSIGN assignmentExp  (19)
+
+	COLON  shift 89
+	.  error
+
+
+state 58
+	forLoop : FOR VARIABLE . IN forTerm FORDOT forTerm forStepExp LB statements RB  (12)
+	forLoop : FOR VARIABLE . IN forTerm FORDOT forTerm LB statements RB  (13)
+
+	IN  shift 90
+	.  error
+
+
+state 59
+	functionCall : VARIABLE . LP RP  (25)
+	functionCall : VARIABLE . LP callParamList RP  (26)
+	inStatement : VARIABLE . ASSIGN SCAN  (33)
+	number : VARIABLE .  (97)
+
+	LP  shift 53
+	ASSIGN  shift 91
+	INTTYPE  reduce 97
+	DOUBLETYPE  reduce 97
+	BOOLTYPE  reduce 97
+	STRINGTYPE  reduce 97
+	VARIABLE  reduce 97
+	LB  reduce 97
+	RB  reduce 97
+	COMMENT  reduce 97
+	CONST  reduce 97
+	FOR  reduce 97
+	FORDOT  reduce 97
+	WHILE  reduce 97
+	FUNC  reduce 97
+	RETURN  reduce 97
+	COMMA  reduce 97
+	GETINCLINATION  reduce 97
+	GETALTITUDE  reduce 97
+	GETTEMPERATURE  reduce 97
+	GETACCELERATION  reduce 97
+	GETTIMESTAMP  reduce 97
+	TAKEPICTURE  reduce 97
+	TURNCAMERA  reduce 97
+	CONNECT  reduce 97
+	DISCONNECT  reduce 97
+	PRINT  reduce 97
+	MULTIPLY  reduce 97
+	IF  reduce 97
+	BY  reduce 97
+	EQUAL  reduce 97
+	NOTEQUAL  reduce 97
+	GREATERTHAN  reduce 97
+	LESSTHAN  reduce 97
+	GREATERTHANOREQUAL  reduce 97
+	LESSTHANOREQUAL  reduce 97
+	AND  reduce 97
+	OR  reduce 97
+	PLUS  reduce 97
+	MINUS  reduce 97
+	REMAINDER  reduce 97
+	DIVIDE  reduce 97
+
+
+state 60
+	number : INTEGER .  (95)
+
+	.  reduce 95
+
+
+state 61
+	not_nonLogicExp : NOT . nonLogicExp  (56)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	.  error
+
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	nonLogicExp  goto 92
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 62
+	nonLogicExp : BOOLEAN .  (59)
+
+	.  reduce 59
+
+
+state 63
+	number : DOUBLE .  (96)
+
+	.  reduce 96
+
+
+state 64
+	whileLoop : WHILE logicCondition . LB statements RB  (14)
+	logicCondition : logicCondition . logicOp not_nonLogicExp  (54)
+
+	LB  shift 93
+	EQUAL  shift 94
+	NOTEQUAL  shift 95
+	GREATERTHAN  shift 96
+	LESSTHAN  shift 97
+	GREATERTHANOREQUAL  shift 98
+	LESSTHANOREQUAL  shift 99
+	AND  shift 100
+	OR  shift 101
+	.  error
+
+	logicOp  goto 102
+
+
+state 65
+	nonLogicExp : functionCall .  (58)
+
+	.  reduce 58
+
+
+state 66
+	logicCondition : not_nonLogicExp .  (55)
+
+	.  reduce 55
+
+
+state 67
+	not_nonLogicExp : nonLogicExp .  (57)
+
+	.  reduce 57
+
+
+state 68
+	nonLogicExp : arithmeticExp .  (60)
+	arithmeticExp : arithmeticExp . leastPrecMathOp multiplyDivide  (69)
+
+	PLUS  shift 103
+	MINUS  shift 104
+	INTTYPE  reduce 60
+	DOUBLETYPE  reduce 60
+	BOOLTYPE  reduce 60
+	STRINGTYPE  reduce 60
+	VARIABLE  reduce 60
+	LB  reduce 60
+	RB  reduce 60
+	COMMENT  reduce 60
+	CONST  reduce 60
+	FOR  reduce 60
+	FORDOT  reduce 60
+	WHILE  reduce 60
+	FUNC  reduce 60
+	RETURN  reduce 60
+	COMMA  reduce 60
+	GETINCLINATION  reduce 60
+	GETALTITUDE  reduce 60
+	GETTEMPERATURE  reduce 60
+	GETACCELERATION  reduce 60
+	GETTIMESTAMP  reduce 60
+	TAKEPICTURE  reduce 60
+	TURNCAMERA  reduce 60
+	CONNECT  reduce 60
+	DISCONNECT  reduce 60
+	PRINT  reduce 60
+	IF  reduce 60
+	BY  reduce 60
+	EQUAL  reduce 60
+	NOTEQUAL  reduce 60
+	GREATERTHAN  reduce 60
+	LESSTHAN  reduce 60
+	GREATERTHANOREQUAL  reduce 60
+	LESSTHANOREQUAL  reduce 60
+	AND  reduce 60
+	OR  reduce 60
+
+	leastPrecMathOp  goto 105
+
+
+state 69
+	arithmeticExp : multiplyDivide .  (70)
+	multiplyDivide : multiplyDivide . mostPrecMathOp number  (71)
+
+	MULTIPLY  shift 106
+	REMAINDER  shift 107
+	DIVIDE  shift 108
+	INTTYPE  reduce 70
+	DOUBLETYPE  reduce 70
+	BOOLTYPE  reduce 70
+	STRINGTYPE  reduce 70
+	VARIABLE  reduce 70
+	RP  reduce 70
+	LB  reduce 70
+	RB  reduce 70
+	COMMENT  reduce 70
+	CONST  reduce 70
+	FOR  reduce 70
+	FORDOT  reduce 70
+	WHILE  reduce 70
+	FUNC  reduce 70
+	RETURN  reduce 70
+	COMMA  reduce 70
+	GETINCLINATION  reduce 70
+	GETALTITUDE  reduce 70
+	GETTEMPERATURE  reduce 70
+	GETACCELERATION  reduce 70
+	GETTIMESTAMP  reduce 70
+	TAKEPICTURE  reduce 70
+	TURNCAMERA  reduce 70
+	CONNECT  reduce 70
+	DISCONNECT  reduce 70
+	PRINT  reduce 70
+	IF  reduce 70
+	BY  reduce 70
+	EQUAL  reduce 70
+	NOTEQUAL  reduce 70
+	GREATERTHAN  reduce 70
+	LESSTHAN  reduce 70
+	GREATERTHANOREQUAL  reduce 70
+	LESSTHANOREQUAL  reduce 70
+	AND  reduce 70
+	OR  reduce 70
+	PLUS  reduce 70
+	MINUS  reduce 70
+
+	mostPrecMathOp  goto 109
+
+
+state 70
+	multiplyDivide : number .  (72)
+
+	.  reduce 72
+
+
+state 71
+	functionDec : FUNC VARIABLE . parameterExp functionoutExp LB statements returnStatement RB  (23)
+	functionDec : FUNC VARIABLE . parameterExp LB statements returnStatement RB  (24)
+
+	LP  shift 110
+	.  error
+
+	parameterExp  goto 111
+
+
+state 72
+	assignmentExp : STRING .  (53)
+
+	.  reduce 53
+
+
+73: shift/reduce conflict (shift 94, reduce 52) on EQUAL
+73: shift/reduce conflict (shift 95, reduce 52) on NOTEQUAL
+73: shift/reduce conflict (shift 96, reduce 52) on GREATERTHAN
+73: shift/reduce conflict (shift 97, reduce 52) on LESSTHAN
+73: shift/reduce conflict (shift 98, reduce 52) on GREATERTHANOREQUAL
+73: shift/reduce conflict (shift 99, reduce 52) on LESSTHANOREQUAL
+73: shift/reduce conflict (shift 100, reduce 52) on AND
+73: shift/reduce conflict (shift 101, reduce 52) on OR
+state 73
+	assignmentExp : logicCondition .  (52)
+	logicCondition : logicCondition . logicOp not_nonLogicExp  (54)
+
+	EQUAL  shift 94
+	NOTEQUAL  shift 95
+	GREATERTHAN  shift 96
+	LESSTHAN  shift 97
+	GREATERTHANOREQUAL  shift 98
+	LESSTHANOREQUAL  shift 99
+	AND  shift 100
+	OR  shift 101
+	INTTYPE  reduce 52
+	DOUBLETYPE  reduce 52
+	BOOLTYPE  reduce 52
+	STRINGTYPE  reduce 52
+	VARIABLE  reduce 52
+	LB  reduce 52
+	RB  reduce 52
+	COMMENT  reduce 52
+	CONST  reduce 52
+	FOR  reduce 52
+	FORDOT  reduce 52
+	WHILE  reduce 52
+	FUNC  reduce 52
+	RETURN  reduce 52
+	COMMA  reduce 52
+	GETINCLINATION  reduce 52
+	GETALTITUDE  reduce 52
+	GETTEMPERATURE  reduce 52
+	GETACCELERATION  reduce 52
+	GETTIMESTAMP  reduce 52
+	TAKEPICTURE  reduce 52
+	TURNCAMERA  reduce 52
+	CONNECT  reduce 52
+	DISCONNECT  reduce 52
+	PRINT  reduce 52
+	IF  reduce 52
+	BY  reduce 52
+
+	logicOp  goto 102
+
+
+state 74
+	printables : assignmentExp .  (32)
+
+	.  reduce 32
+
+
+75: shift/reduce conflict (shift 112, reduce 30) on COMMA
+state 75
+	outStatement : PRINT printables .  (30)
+	printables : printables . COMMA assignmentExp  (31)
+
+	COMMA  shift 112
+	INTTYPE  reduce 30
+	DOUBLETYPE  reduce 30
+	BOOLTYPE  reduce 30
+	STRINGTYPE  reduce 30
+	VARIABLE  reduce 30
+	LB  reduce 30
+	RB  reduce 30
+	COMMENT  reduce 30
+	CONST  reduce 30
+	FOR  reduce 30
+	FORDOT  reduce 30
+	WHILE  reduce 30
+	FUNC  reduce 30
+	RETURN  reduce 30
+	GETINCLINATION  reduce 30
+	GETALTITUDE  reduce 30
+	GETTEMPERATURE  reduce 30
+	GETACCELERATION  reduce 30
+	GETTIMESTAMP  reduce 30
+	TAKEPICTURE  reduce 30
+	TURNCAMERA  reduce 30
+	CONNECT  reduce 30
+	DISCONNECT  reduce 30
+	PRINT  reduce 30
+	IF  reduce 30
+	BY  reduce 30
+	EQUAL  reduce 30
+	NOTEQUAL  reduce 30
+	GREATERTHAN  reduce 30
+	LESSTHAN  reduce 30
+	GREATERTHANOREQUAL  reduce 30
+	LESSTHANOREQUAL  reduce 30
+	AND  reduce 30
+	OR  reduce 30
+
+
+state 76
+	logicCondition : logicCondition . logicOp not_nonLogicExp  (54)
+	matched : IF logicCondition . LB statementBlocks RB ELSE LB statementBlocks RB  (78)
+	matched : IF logicCondition . LB matched RB ELSE LB statementBlocks RB  (79)
+	matched : IF logicCondition . LB matched RB ELSE LB matched RB  (80)
+	unmatched : IF logicCondition . LB statementBlocks RB  (81)
+	unmatched : IF logicCondition . LB matched RB ELSE LB unmatched RB  (82)
+
+	LB  shift 113
+	EQUAL  shift 94
+	NOTEQUAL  shift 95
+	GREATERTHAN  shift 96
+	LESSTHAN  shift 97
+	GREATERTHANOREQUAL  shift 98
+	LESSTHANOREQUAL  shift 99
+	AND  shift 100
+	OR  shift 101
+	.  error
+
+	logicOp  goto 102
+
+
+state 77
+	variableDec : type COLON . VARIABLE  (20)
+	variableDec : type COLON . VARIABLE ASSIGN assignmentExp  (21)
+	variableDec : type COLON . VARIABLE ASSIGN SCAN  (22)
+
+	VARIABLE  shift 114
+	.  error
+
+
+state 78
+	funcCallParam : VARIABLE .  (111)
+
+	.  reduce 111
+
+
+state 79
+	funcCallParam : INTEGER .  (113)
+
+	.  reduce 113
+
+
+state 80
+	functionCall : VARIABLE LP RP .  (25)
+
+	.  reduce 25
+
+
+state 81
+	funcCallParam : BOOLEAN .  (116)
+
+	.  reduce 116
+
+
+state 82
+	funcCallParam : DOUBLE .  (114)
+
+	.  reduce 114
+
+
+state 83
+	funcCallParam : STRING .  (115)
+
+	.  reduce 115
+
+
+state 84
+	funcCallParam : CONSTANT .  (112)
+
+	.  reduce 112
+
+
+state 85
+	functionCall : VARIABLE LP callParamList . RP  (26)
+	callParamList : callParamList . COMMA funcCallParam  (109)
+
+	RP  shift 115
+	COMMA  shift 116
+	.  error
+
+
+state 86
+	callParamList : funcCallParam .  (110)
+
+	.  reduce 110
+
+
+state 87
+	inStatement : VARIABLE ASSIGN SCAN .  (33)
+
+	.  reduce 33
+
+
+state 88
+	assignment : VARIABLE ASSIGN assignmentExp .  (15)
+
+	.  reduce 15
+
+
+state 89
+	constantDec : CONST type COLON . CONSTANT ASSIGN assignmentExp  (19)
+
+	CONSTANT  shift 117
+	.  error
+
+
+state 90
+	forLoop : FOR VARIABLE IN . forTerm FORDOT forTerm forStepExp LB statements RB  (12)
+	forLoop : FOR VARIABLE IN . forTerm FORDOT forTerm LB statements RB  (13)
+
+	VARIABLE  shift 118
+	INTEGER  shift 119
+	LP  shift 120
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	.  error
+
+	forTerm  goto 121
+	functionCall  goto 122
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 91
+	inStatement : VARIABLE ASSIGN . SCAN  (33)
+
+	SCAN  shift 87
+	.  error
+
+
+state 92
+	not_nonLogicExp : NOT nonLogicExp .  (56)
+
+	.  reduce 56
+
+
+state 93
+	whileLoop : WHILE logicCondition LB . statements RB  (14)
+	empty : .  (94)
+
+	.  reduce 94
+
+	statements  goto 123
+	empty  goto 5
+
+
+state 94
+	logicOp : EQUAL .  (61)
+
+	.  reduce 61
+
+
+state 95
+	logicOp : NOTEQUAL .  (62)
+
+	.  reduce 62
+
+
+state 96
+	logicOp : GREATERTHAN .  (63)
+
+	.  reduce 63
+
+
+state 97
+	logicOp : LESSTHAN .  (65)
+
+	.  reduce 65
+
+
+state 98
+	logicOp : GREATERTHANOREQUAL .  (64)
+
+	.  reduce 64
+
+
+state 99
+	logicOp : LESSTHANOREQUAL .  (66)
+
+	.  reduce 66
+
+
+state 100
+	logicOp : AND .  (67)
+
+	.  reduce 67
+
+
+state 101
+	logicOp : OR .  (68)
+
+	.  reduce 68
+
+
+state 102
+	logicCondition : logicCondition logicOp . not_nonLogicExp  (54)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	.  error
+
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 124
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 103
+	leastPrecMathOp : PLUS .  (73)
+
+	.  reduce 73
+
+
+state 104
+	leastPrecMathOp : MINUS .  (74)
+
+	.  reduce 74
+
+
+state 105
+	arithmeticExp : arithmeticExp leastPrecMathOp . multiplyDivide  (69)
+
+	VARIABLE  shift 125
+	INTEGER  shift 60
+	DOUBLE  shift 63
+	.  error
+
+	multiplyDivide  goto 126
+	number  goto 70
+
+
+state 106
+	mostPrecMathOp : MULTIPLY .  (75)
+
+	.  reduce 75
+
+
+state 107
+	mostPrecMathOp : REMAINDER .  (77)
+
+	.  reduce 77
+
+
+state 108
+	mostPrecMathOp : DIVIDE .  (76)
+
+	.  reduce 76
+
+
+state 109
+	multiplyDivide : multiplyDivide mostPrecMathOp . number  (71)
+
+	VARIABLE  shift 125
+	INTEGER  shift 60
+	DOUBLE  shift 63
+	.  error
+
+	number  goto 127
+
+
+state 110
+	parameterExp : LP . RP  (98)
+	parameterExp : LP . functionParams RP  (99)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	RP  shift 128
+	.  error
+
+	type  goto 129
+	functionParams  goto 130
+	functionParam  goto 131
+
+
+state 111
+	functionDec : FUNC VARIABLE parameterExp . functionoutExp LB statements returnStatement RB  (23)
+	functionDec : FUNC VARIABLE parameterExp . LB statements returnStatement RB  (24)
+
+	LB  shift 132
+	FUNCTIONOUT  shift 133
+	.  error
+
+	functionoutExp  goto 134
+
+
+state 112
+	printables : printables COMMA . assignmentExp  (31)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	STRING  shift 72
+	.  error
+
+	logicCondition  goto 73
+	assignmentExp  goto 135
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 113
+	matched : IF logicCondition LB . statementBlocks RB ELSE LB statementBlocks RB  (78)
+	matched : IF logicCondition LB . matched RB ELSE LB statementBlocks RB  (79)
+	matched : IF logicCondition LB . matched RB ELSE LB matched RB  (80)
+	unmatched : IF logicCondition LB . statementBlocks RB  (81)
+	unmatched : IF logicCondition LB . matched RB ELSE LB unmatched RB  (82)
+	empty : .  (94)
+
+	IF  shift 136
+	INTTYPE  reduce 94
+	DOUBLETYPE  reduce 94
+	BOOLTYPE  reduce 94
+	STRINGTYPE  reduce 94
+	VARIABLE  reduce 94
+	RB  reduce 94
+	COMMENT  reduce 94
+	CONST  reduce 94
+	FOR  reduce 94
+	WHILE  reduce 94
+	FUNC  reduce 94
+	GETINCLINATION  reduce 94
+	GETALTITUDE  reduce 94
+	GETTEMPERATURE  reduce 94
+	GETACCELERATION  reduce 94
+	GETTIMESTAMP  reduce 94
+	TAKEPICTURE  reduce 94
+	TURNCAMERA  reduce 94
+	CONNECT  reduce 94
+	DISCONNECT  reduce 94
+	PRINT  reduce 94
+
+	empty  goto 137
+	matched  goto 138
+	statementBlocks  goto 139
+
+
+state 114
+	variableDec : type COLON VARIABLE .  (20)
+	variableDec : type COLON VARIABLE . ASSIGN assignmentExp  (21)
+	variableDec : type COLON VARIABLE . ASSIGN SCAN  (22)
+
+	ASSIGN  shift 140
+	INTTYPE  reduce 20
+	DOUBLETYPE  reduce 20
+	BOOLTYPE  reduce 20
+	STRINGTYPE  reduce 20
+	VARIABLE  reduce 20
+	RB  reduce 20
+	COMMENT  reduce 20
+	CONST  reduce 20
+	FOR  reduce 20
+	WHILE  reduce 20
+	FUNC  reduce 20
+	RETURN  reduce 20
+	GETINCLINATION  reduce 20
+	GETALTITUDE  reduce 20
+	GETTEMPERATURE  reduce 20
+	GETACCELERATION  reduce 20
+	GETTIMESTAMP  reduce 20
+	TAKEPICTURE  reduce 20
+	TURNCAMERA  reduce 20
+	CONNECT  reduce 20
+	DISCONNECT  reduce 20
+	PRINT  reduce 20
+	IF  reduce 20
+
+
+state 115
+	functionCall : VARIABLE LP callParamList RP .  (26)
+
+	.  reduce 26
+
+
+state 116
+	callParamList : callParamList COMMA . funcCallParam  (109)
+
+	VARIABLE  shift 78
+	INTEGER  shift 79
+	BOOLEAN  shift 81
+	DOUBLE  shift 82
+	STRING  shift 83
+	CONSTANT  shift 84
+	.  error
+
+	funcCallParam  goto 141
+
+
+state 117
+	constantDec : CONST type COLON CONSTANT . ASSIGN assignmentExp  (19)
+
+	ASSIGN  shift 142
+	.  error
+
+
+state 118
+	functionCall : VARIABLE . LP RP  (25)
+	functionCall : VARIABLE . LP callParamList RP  (26)
+	inStatement : VARIABLE . ASSIGN SCAN  (33)
+	forTerm : VARIABLE .  (105)
+
+	LP  shift 53
+	ASSIGN  shift 91
+	LB  reduce 105
+	FORDOT  reduce 105
+	BY  reduce 105
+
+
+state 119
+	forTerm : INTEGER .  (106)
+
+	.  reduce 106
+
+
+state 120
+	forTerm : LP . arithmeticExp RP  (108)
+
+	VARIABLE  shift 125
+	INTEGER  shift 60
+	DOUBLE  shift 63
+	.  error
+
+	arithmeticExp  goto 143
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 121
+	forLoop : FOR VARIABLE IN forTerm . FORDOT forTerm forStepExp LB statements RB  (12)
+	forLoop : FOR VARIABLE IN forTerm . FORDOT forTerm LB statements RB  (13)
+
+	FORDOT  shift 144
+	.  error
+
+
+state 122
+	forTerm : functionCall .  (107)
+
+	.  reduce 107
+
+
+state 123
+	statements : statements . statement  (2)
+	whileLoop : WHILE logicCondition LB statements . RB  (14)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	RB  shift 145
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	IF  shift 27
+	.  error
+
+	statement  goto 28
+	statementBlockEl  goto 29
+	ifStatement  goto 30
+	commentStatement  goto 31
+	matched  goto 32
+	unmatched  goto 33
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 124
+	logicCondition : logicCondition logicOp not_nonLogicExp .  (54)
+
+	.  reduce 54
+
+
+state 125
+	number : VARIABLE .  (97)
+
+	.  reduce 97
+
+
+state 126
+	arithmeticExp : arithmeticExp leastPrecMathOp multiplyDivide .  (69)
+	multiplyDivide : multiplyDivide . mostPrecMathOp number  (71)
+
+	MULTIPLY  shift 106
+	REMAINDER  shift 107
+	DIVIDE  shift 108
+	INTTYPE  reduce 69
+	DOUBLETYPE  reduce 69
+	BOOLTYPE  reduce 69
+	STRINGTYPE  reduce 69
+	VARIABLE  reduce 69
+	RP  reduce 69
+	LB  reduce 69
+	RB  reduce 69
+	COMMENT  reduce 69
+	CONST  reduce 69
+	FOR  reduce 69
+	FORDOT  reduce 69
+	WHILE  reduce 69
+	FUNC  reduce 69
+	RETURN  reduce 69
+	COMMA  reduce 69
+	GETINCLINATION  reduce 69
+	GETALTITUDE  reduce 69
+	GETTEMPERATURE  reduce 69
+	GETACCELERATION  reduce 69
+	GETTIMESTAMP  reduce 69
+	TAKEPICTURE  reduce 69
+	TURNCAMERA  reduce 69
+	CONNECT  reduce 69
+	DISCONNECT  reduce 69
+	PRINT  reduce 69
+	IF  reduce 69
+	BY  reduce 69
+	EQUAL  reduce 69
+	NOTEQUAL  reduce 69
+	GREATERTHAN  reduce 69
+	LESSTHAN  reduce 69
+	GREATERTHANOREQUAL  reduce 69
+	LESSTHANOREQUAL  reduce 69
+	AND  reduce 69
+	OR  reduce 69
+	PLUS  reduce 69
+	MINUS  reduce 69
+
+	mostPrecMathOp  goto 109
+
+
+state 127
+	multiplyDivide : multiplyDivide mostPrecMathOp number .  (71)
+
+	.  reduce 71
+
+
+state 128
+	parameterExp : LP RP .  (98)
+
+	.  reduce 98
+
+
+state 129
+	functionParam : type . COLON VARIABLE  (102)
+
+	COLON  shift 146
+	.  error
+
+
+state 130
+	parameterExp : LP functionParams . RP  (99)
+	functionParams : functionParams . COMMA functionParam  (100)
+
+	RP  shift 147
+	COMMA  shift 148
+	.  error
+
+
+state 131
+	functionParams : functionParam .  (101)
+
+	.  reduce 101
+
+
+state 132
+	functionDec : FUNC VARIABLE parameterExp LB . statements returnStatement RB  (24)
+	empty : .  (94)
+
+	.  reduce 94
+
+	statements  goto 149
+	empty  goto 5
+
+
+state 133
+	functionoutExp : FUNCTIONOUT . functionParam  (103)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	.  error
+
+	type  goto 129
+	functionParam  goto 150
+
+
+state 134
+	functionDec : FUNC VARIABLE parameterExp functionoutExp . LB statements returnStatement RB  (23)
+
+	LB  shift 151
+	.  error
+
+
+state 135
+	printables : printables COMMA assignmentExp .  (31)
+
+	.  reduce 31
+
+
+state 136
+	matched : IF . logicCondition LB statementBlocks RB ELSE LB statementBlocks RB  (78)
+	matched : IF . logicCondition LB matched RB ELSE LB statementBlocks RB  (79)
+	matched : IF . logicCondition LB matched RB ELSE LB matched RB  (80)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	.  error
+
+	logicCondition  goto 152
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 137
+	statementBlocks : empty .  (88)
+
+	.  reduce 88
+
+
+state 138
+	matched : IF logicCondition LB matched . RB ELSE LB statementBlocks RB  (79)
+	matched : IF logicCondition LB matched . RB ELSE LB matched RB  (80)
+	unmatched : IF logicCondition LB matched . RB ELSE LB unmatched RB  (82)
+
+	RB  shift 153
+	.  error
+
+
+state 139
+	matched : IF logicCondition LB statementBlocks . RB ELSE LB statementBlocks RB  (78)
+	unmatched : IF logicCondition LB statementBlocks . RB  (81)
+	statementBlocks : statementBlocks . statementBlockEl  (87)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	RB  shift 154
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	.  error
+
+	statementBlockEl  goto 155
+	commentStatement  goto 31
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 140
+	variableDec : type COLON VARIABLE ASSIGN . assignmentExp  (21)
+	variableDec : type COLON VARIABLE ASSIGN . SCAN  (22)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	SCAN  shift 156
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	STRING  shift 72
+	.  error
+
+	logicCondition  goto 73
+	assignmentExp  goto 157
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 141
+	callParamList : callParamList COMMA funcCallParam .  (109)
+
+	.  reduce 109
+
+
+state 142
+	constantDec : CONST type COLON CONSTANT ASSIGN . assignmentExp  (19)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	STRING  shift 72
+	.  error
+
+	logicCondition  goto 73
+	assignmentExp  goto 158
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 143
+	arithmeticExp : arithmeticExp . leastPrecMathOp multiplyDivide  (69)
+	forTerm : LP arithmeticExp . RP  (108)
+
+	RP  shift 159
+	PLUS  shift 103
+	MINUS  shift 104
+	.  error
+
+	leastPrecMathOp  goto 105
+
+
+state 144
+	forLoop : FOR VARIABLE IN forTerm FORDOT . forTerm forStepExp LB statements RB  (12)
+	forLoop : FOR VARIABLE IN forTerm FORDOT . forTerm LB statements RB  (13)
+
+	VARIABLE  shift 118
+	INTEGER  shift 119
+	LP  shift 120
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	.  error
+
+	forTerm  goto 160
+	functionCall  goto 122
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 145
+	whileLoop : WHILE logicCondition LB statements RB .  (14)
+
+	.  reduce 14
+
+
+state 146
+	functionParam : type COLON . VARIABLE  (102)
+
+	VARIABLE  shift 161
+	.  error
+
+
+state 147
+	parameterExp : LP functionParams RP .  (99)
+
+	.  reduce 99
+
+
+state 148
+	functionParams : functionParams COMMA . functionParam  (100)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	.  error
+
+	type  goto 129
+	functionParam  goto 162
+
+
+state 149
+	statements : statements . statement  (2)
+	functionDec : FUNC VARIABLE parameterExp LB statements . returnStatement RB  (24)
+	empty : .  (94)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	RETURN  shift 163
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	IF  shift 27
+	RB  reduce 94
+
+	statement  goto 28
+	empty  goto 164
+	statementBlockEl  goto 29
+	ifStatement  goto 30
+	commentStatement  goto 31
+	matched  goto 32
+	unmatched  goto 33
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	returnStatement  goto 165
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 150
+	functionoutExp : FUNCTIONOUT functionParam .  (103)
+
+	.  reduce 103
+
+
+state 151
+	functionDec : FUNC VARIABLE parameterExp functionoutExp LB . statements returnStatement RB  (23)
+	empty : .  (94)
+
+	.  reduce 94
+
+	statements  goto 166
+	empty  goto 5
+
+
+state 152
+	logicCondition : logicCondition . logicOp not_nonLogicExp  (54)
+	matched : IF logicCondition . LB statementBlocks RB ELSE LB statementBlocks RB  (78)
+	matched : IF logicCondition . LB matched RB ELSE LB statementBlocks RB  (79)
+	matched : IF logicCondition . LB matched RB ELSE LB matched RB  (80)
+
+	LB  shift 167
+	EQUAL  shift 94
+	NOTEQUAL  shift 95
+	GREATERTHAN  shift 96
+	LESSTHAN  shift 97
+	GREATERTHANOREQUAL  shift 98
+	LESSTHANOREQUAL  shift 99
+	AND  shift 100
+	OR  shift 101
+	.  error
+
+	logicOp  goto 102
+
+
+state 153
+	matched : IF logicCondition LB matched RB . ELSE LB statementBlocks RB  (79)
+	matched : IF logicCondition LB matched RB . ELSE LB matched RB  (80)
+	unmatched : IF logicCondition LB matched RB . ELSE LB unmatched RB  (82)
+
+	ELSE  shift 168
+	.  error
+
+
+state 154
+	matched : IF logicCondition LB statementBlocks RB . ELSE LB statementBlocks RB  (78)
+	unmatched : IF logicCondition LB statementBlocks RB .  (81)
+
+	ELSE  shift 169
+	INTTYPE  reduce 81
+	DOUBLETYPE  reduce 81
+	BOOLTYPE  reduce 81
+	STRINGTYPE  reduce 81
+	VARIABLE  reduce 81
+	RB  reduce 81
+	COMMENT  reduce 81
+	CONST  reduce 81
+	FOR  reduce 81
+	WHILE  reduce 81
+	FUNC  reduce 81
+	RETURN  reduce 81
+	GETINCLINATION  reduce 81
+	GETALTITUDE  reduce 81
+	GETTEMPERATURE  reduce 81
+	GETACCELERATION  reduce 81
+	GETTIMESTAMP  reduce 81
+	TAKEPICTURE  reduce 81
+	TURNCAMERA  reduce 81
+	CONNECT  reduce 81
+	DISCONNECT  reduce 81
+	PRINT  reduce 81
+	IF  reduce 81
+
+
+state 155
+	statementBlocks : statementBlocks statementBlockEl .  (87)
+
+	.  reduce 87
+
+
+state 156
+	variableDec : type COLON VARIABLE ASSIGN SCAN .  (22)
+
+	.  reduce 22
+
+
+state 157
+	variableDec : type COLON VARIABLE ASSIGN assignmentExp .  (21)
+
+	.  reduce 21
+
+
+state 158
+	constantDec : CONST type COLON CONSTANT ASSIGN assignmentExp .  (19)
+
+	.  reduce 19
+
+
+state 159
+	forTerm : LP arithmeticExp RP .  (108)
+
+	.  reduce 108
+
+
+state 160
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm . forStepExp LB statements RB  (12)
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm . LB statements RB  (13)
+
+	LB  shift 170
+	BY  shift 171
+	.  error
+
+	forStepExp  goto 172
+
+
+state 161
+	functionParam : type COLON VARIABLE .  (102)
+
+	.  reduce 102
+
+
+state 162
+	functionParams : functionParams COMMA functionParam .  (100)
+
+	.  reduce 100
+
+
+state 163
+	returnStatement : RETURN . assignmentExp  (50)
+
+	VARIABLE  shift 59
+	INTEGER  shift 60
+	NOT  shift 61
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	BOOLEAN  shift 62
+	DOUBLE  shift 63
+	STRING  shift 72
+	.  error
+
+	logicCondition  goto 73
+	assignmentExp  goto 173
+	functionCall  goto 65
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+	not_nonLogicExp  goto 66
+	nonLogicExp  goto 67
+	arithmeticExp  goto 68
+	multiplyDivide  goto 69
+	number  goto 70
+
+
+state 164
+	returnStatement : empty .  (51)
+
+	.  reduce 51
+
+
+state 165
+	functionDec : FUNC VARIABLE parameterExp LB statements returnStatement . RB  (24)
+
+	RB  shift 174
+	.  error
+
+
+state 166
+	statements : statements . statement  (2)
+	functionDec : FUNC VARIABLE parameterExp functionoutExp LB statements . returnStatement RB  (23)
+	empty : .  (94)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	RETURN  shift 163
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	IF  shift 27
+	RB  reduce 94
+
+	statement  goto 28
+	empty  goto 164
+	statementBlockEl  goto 29
+	ifStatement  goto 30
+	commentStatement  goto 31
+	matched  goto 32
+	unmatched  goto 33
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	returnStatement  goto 175
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 167
+	matched : IF logicCondition LB . statementBlocks RB ELSE LB statementBlocks RB  (78)
+	matched : IF logicCondition LB . matched RB ELSE LB statementBlocks RB  (79)
+	matched : IF logicCondition LB . matched RB ELSE LB matched RB  (80)
+	empty : .  (94)
+
+	IF  shift 136
+	INTTYPE  reduce 94
+	DOUBLETYPE  reduce 94
+	BOOLTYPE  reduce 94
+	STRINGTYPE  reduce 94
+	VARIABLE  reduce 94
+	RB  reduce 94
+	COMMENT  reduce 94
+	CONST  reduce 94
+	FOR  reduce 94
+	WHILE  reduce 94
+	FUNC  reduce 94
+	GETINCLINATION  reduce 94
+	GETALTITUDE  reduce 94
+	GETTEMPERATURE  reduce 94
+	GETACCELERATION  reduce 94
+	GETTIMESTAMP  reduce 94
+	TAKEPICTURE  reduce 94
+	TURNCAMERA  reduce 94
+	CONNECT  reduce 94
+	DISCONNECT  reduce 94
+	PRINT  reduce 94
+
+	empty  goto 137
+	matched  goto 176
+	statementBlocks  goto 177
+
+
+state 168
+	matched : IF logicCondition LB matched RB ELSE . LB statementBlocks RB  (79)
+	matched : IF logicCondition LB matched RB ELSE . LB matched RB  (80)
+	unmatched : IF logicCondition LB matched RB ELSE . LB unmatched RB  (82)
+
+	LB  shift 178
+	.  error
+
+
+state 169
+	matched : IF logicCondition LB statementBlocks RB ELSE . LB statementBlocks RB  (78)
+
+	LB  shift 179
+	.  error
+
+
+state 170
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm LB . statements RB  (13)
+	empty : .  (94)
+
+	.  reduce 94
+
+	statements  goto 180
+	empty  goto 5
+
+
+state 171
+	forStepExp : BY . INTEGER  (104)
+
+	INTEGER  shift 181
+	.  error
+
+
+state 172
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm forStepExp . LB statements RB  (12)
+
+	LB  shift 182
+	.  error
+
+
+state 173
+	returnStatement : RETURN assignmentExp .  (50)
+
+	.  reduce 50
+
+
+state 174
+	functionDec : FUNC VARIABLE parameterExp LB statements returnStatement RB .  (24)
+
+	.  reduce 24
+
+
+state 175
+	functionDec : FUNC VARIABLE parameterExp functionoutExp LB statements returnStatement . RB  (23)
+
+	RB  shift 183
+	.  error
+
+
+state 176
+	matched : IF logicCondition LB matched . RB ELSE LB statementBlocks RB  (79)
+	matched : IF logicCondition LB matched . RB ELSE LB matched RB  (80)
+
+	RB  shift 184
+	.  error
+
+
+state 177
+	matched : IF logicCondition LB statementBlocks . RB ELSE LB statementBlocks RB  (78)
+	statementBlocks : statementBlocks . statementBlockEl  (87)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	RB  shift 185
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	.  error
+
+	statementBlockEl  goto 155
+	commentStatement  goto 31
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 178
+	matched : IF logicCondition LB matched RB ELSE LB . statementBlocks RB  (79)
+	matched : IF logicCondition LB matched RB ELSE LB . matched RB  (80)
+	unmatched : IF logicCondition LB matched RB ELSE LB . unmatched RB  (82)
+	empty : .  (94)
+
+	IF  shift 27
+	INTTYPE  reduce 94
+	DOUBLETYPE  reduce 94
+	BOOLTYPE  reduce 94
+	STRINGTYPE  reduce 94
+	VARIABLE  reduce 94
+	RB  reduce 94
+	COMMENT  reduce 94
+	CONST  reduce 94
+	FOR  reduce 94
+	WHILE  reduce 94
+	FUNC  reduce 94
+	GETINCLINATION  reduce 94
+	GETALTITUDE  reduce 94
+	GETTEMPERATURE  reduce 94
+	GETACCELERATION  reduce 94
+	GETTIMESTAMP  reduce 94
+	TAKEPICTURE  reduce 94
+	TURNCAMERA  reduce 94
+	CONNECT  reduce 94
+	DISCONNECT  reduce 94
+	PRINT  reduce 94
+
+	empty  goto 137
+	matched  goto 186
+	unmatched  goto 187
+	statementBlocks  goto 188
+
+
+state 179
+	matched : IF logicCondition LB statementBlocks RB ELSE LB . statementBlocks RB  (78)
+	empty : .  (94)
+
+	.  reduce 94
+
+	empty  goto 137
+	statementBlocks  goto 189
+
+
+state 180
+	statements : statements . statement  (2)
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm LB statements . RB  (13)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	RB  shift 190
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	IF  shift 27
+	.  error
+
+	statement  goto 28
+	statementBlockEl  goto 29
+	ifStatement  goto 30
+	commentStatement  goto 31
+	matched  goto 32
+	unmatched  goto 33
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 181
+	forStepExp : BY INTEGER .  (104)
+
+	.  reduce 104
+
+
+state 182
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm forStepExp LB . statements RB  (12)
+	empty : .  (94)
+
+	.  reduce 94
+
+	statements  goto 191
+	empty  goto 5
+
+
+state 183
+	functionDec : FUNC VARIABLE parameterExp functionoutExp LB statements returnStatement RB .  (23)
+
+	.  reduce 23
+
+
+state 184
+	matched : IF logicCondition LB matched RB . ELSE LB statementBlocks RB  (79)
+	matched : IF logicCondition LB matched RB . ELSE LB matched RB  (80)
+
+	ELSE  shift 192
+	.  error
+
+
+state 185
+	matched : IF logicCondition LB statementBlocks RB . ELSE LB statementBlocks RB  (78)
+
+	ELSE  shift 169
+	.  error
+
+
+state 186
+	matched : IF logicCondition LB matched RB ELSE LB matched . RB  (80)
+
+	RB  shift 193
+	.  error
+
+
+state 187
+	unmatched : IF logicCondition LB matched RB ELSE LB unmatched . RB  (82)
+
+	RB  shift 194
+	.  error
+
+
+state 188
+	matched : IF logicCondition LB matched RB ELSE LB statementBlocks . RB  (79)
+	statementBlocks : statementBlocks . statementBlockEl  (87)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	RB  shift 195
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	.  error
+
+	statementBlockEl  goto 155
+	commentStatement  goto 31
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 189
+	matched : IF logicCondition LB statementBlocks RB ELSE LB statementBlocks . RB  (78)
+	statementBlocks : statementBlocks . statementBlockEl  (87)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	RB  shift 196
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	.  error
+
+	statementBlockEl  goto 155
+	commentStatement  goto 31
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 190
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm LB statements RB .  (13)
+
+	.  reduce 13
+
+
+state 191
+	statements : statements . statement  (2)
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm forStepExp LB statements . RB  (12)
+
+	INTTYPE  shift 6
+	DOUBLETYPE  shift 7
+	BOOLTYPE  shift 8
+	STRINGTYPE  shift 9
+	VARIABLE  shift 10
+	RB  shift 197
+	COMMENT  shift 12
+	CONST  shift 13
+	FOR  shift 14
+	WHILE  shift 15
+	FUNC  shift 16
+	GETINCLINATION  shift 17
+	GETALTITUDE  shift 18
+	GETTEMPERATURE  shift 19
+	GETACCELERATION  shift 20
+	GETTIMESTAMP  shift 21
+	TAKEPICTURE  shift 22
+	TURNCAMERA  shift 23
+	CONNECT  shift 24
+	DISCONNECT  shift 25
+	PRINT  shift 26
+	IF  shift 27
+	.  error
+
+	statement  goto 28
+	statementBlockEl  goto 29
+	ifStatement  goto 30
+	commentStatement  goto 31
+	matched  goto 32
+	unmatched  goto 33
+	loopStatement  goto 34
+	forLoop  goto 35
+	whileLoop  goto 36
+	assignment  goto 37
+	declaration  goto 38
+	constantDec  goto 39
+	variableDec  goto 40
+	functionDec  goto 41
+	type  goto 42
+	functionCall  goto 43
+	outStatement  goto 44
+	inStatement  goto 45
+	drone_method  goto 46
+	droneGetMethod  goto 47
+	cameraStatus  goto 48
+	takePicture  goto 49
+	connect  goto 50
+	disconnect  goto 51
+	droneGet  goto 52
+
+
+state 192
+	matched : IF logicCondition LB matched RB ELSE . LB statementBlocks RB  (79)
+	matched : IF logicCondition LB matched RB ELSE . LB matched RB  (80)
+
+	LB  shift 198
+	.  error
+
+
+state 193
+	matched : IF logicCondition LB matched RB ELSE LB matched RB .  (80)
+
+	.  reduce 80
+
+
+state 194
+	unmatched : IF logicCondition LB matched RB ELSE LB unmatched RB .  (82)
+
+	.  reduce 82
+
+
+state 195
+	matched : IF logicCondition LB matched RB ELSE LB statementBlocks RB .  (79)
+
+	.  reduce 79
+
+
+state 196
+	matched : IF logicCondition LB statementBlocks RB ELSE LB statementBlocks RB .  (78)
+
+	.  reduce 78
+
+
+state 197
+	forLoop : FOR VARIABLE IN forTerm FORDOT forTerm forStepExp LB statements RB .  (12)
+
+	.  reduce 12
+
+
+state 198
+	matched : IF logicCondition LB matched RB ELSE LB . statementBlocks RB  (79)
+	matched : IF logicCondition LB matched RB ELSE LB . matched RB  (80)
+	empty : .  (94)
+
+	IF  shift 136
+	INTTYPE  reduce 94
+	DOUBLETYPE  reduce 94
+	BOOLTYPE  reduce 94
+	STRINGTYPE  reduce 94
+	VARIABLE  reduce 94
+	RB  reduce 94
+	COMMENT  reduce 94
+	CONST  reduce 94
+	FOR  reduce 94
+	WHILE  reduce 94
+	FUNC  reduce 94
+	GETINCLINATION  reduce 94
+	GETALTITUDE  reduce 94
+	GETTEMPERATURE  reduce 94
+	GETACCELERATION  reduce 94
+	GETTIMESTAMP  reduce 94
+	TAKEPICTURE  reduce 94
+	TURNCAMERA  reduce 94
+	CONNECT  reduce 94
+	DISCONNECT  reduce 94
+	PRINT  reduce 94
+
+	empty  goto 137
+	matched  goto 186
+	statementBlocks  goto 188
+
+
+Rules never reduced:
+	cameraParamList : STRING COMMA INTEGER  (46)
+
+
+State 73 contains 8 shift/reduce conflicts.
+State 75 contains 1 shift/reduce conflict.
+
+
+61 terminals, 51 nonterminals
+117 grammar rules, 199 states
