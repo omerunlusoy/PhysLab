@@ -85,9 +85,11 @@ mostPrecMathOp: MULTIPLY | DIVIDE | REMAINDER;
 
 matched: IF logicCondition LB statementBlocks RB ELSE LB statementBlocks RB
 		| IF logicCondition LB matched RB ELSE LB statementBlocks RB 
+		| IF logicCondition LB statementBlocks RB ELSE LB matched RB 
 		| IF logicCondition LB matched RB ELSE LB matched RB;
 		
 unmatched: IF logicCondition LB statementBlocks RB
+		| IF logicCondition LB statementBlocks RB ELSE LB unmatched RB
 		| IF logicCondition LB matched RB ELSE LB unmatched RB;
 		
 type: INTTYPE | DOUBLETYPE | STRINGTYPE | BOOLTYPE;

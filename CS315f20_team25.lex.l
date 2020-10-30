@@ -32,7 +32,7 @@ PLUS                \+
 MINUS               \-
 MULTIPLY            \*
 DIVIDE              \/
-MOD                 \%
+REMAINDER           \%
 INTTYPE 			int
 DOUBLETYPE 			double
 STRINGTYPE 			string
@@ -121,7 +121,7 @@ CONSTANT          	{upp_alphabetic}{ALPHANUMERIC}*
 {PLUS}				{return PLUS;}
 {MINUS}				{return MINUS;}
 {DIVIDE}			{return DIVIDE;}
-{MOD}				{return REMAINDER;}
+{REMAINDER}			{return REMAINDER;}
 {COMMENT}			{return COMMENT;}
 {INTEGER}			{return INTEGER;}
 {DOUBLE}			{return DOUBLE;}
