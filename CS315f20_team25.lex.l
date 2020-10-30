@@ -49,15 +49,15 @@ FUNC 				func
 RETURN				return
 SCAN              	scan
 PRINT             	print
-CONNECT           	connect\(\)
-DISCONNECT        	disconnect\(\)
-GETINCLINATION 		getInclination\(\)
-GETALTITUDE			getAltitude\(\)
-GETTEMPERATURE		getTemperature\(\)
-GETACCELERATION		getAcceleration\(\)
-GETTIMESTAMP		getTimestamp\(\)
-TURN		        turnCamera\(\)
-TAKEPICTURE      	takePicture\(\)
+CONNECT           	connect
+DISCONNECT        	disconnect
+GETINCLINATION 		getInclination
+GETALTITUDE			getAltitude
+GETTEMPERATURE		getTemperature
+GETACCELERATION		getAcceleration
+GETTIMESTAMP		getTimestamp
+TURN		        turnCamera
+TAKEPICTURE      	takePicture
 numeric             [0-9]
 alphabetic          [A-Za-z]
 low_alphabetic   	[a-z]
@@ -78,7 +78,7 @@ CONSTANT          	{upp_alphabetic}{ALPHANUMERIC}*
 {STRINGTYPE} 		{return STRINGTYPE;}
 {GETINCLINATION} 	{return GETINCLINATION;}
 {GETALTITUDE}		{return GETALTITUDE;}
-{GETTEMPERATURE}		{return GETTEMPERATURE;}
+{GETTEMPERATURE}	{return GETTEMPERATURE;}
 {GETACCELERATION}	{return GETACCELERATION;}
 {GETTIMESTAMP}		{return GETTIMESTAMP;}
 {TAKEPICTURE}     	{return TAKEPICTURE;}

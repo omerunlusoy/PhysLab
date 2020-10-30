@@ -21,8 +21,6 @@ statements: statements statement | empty;
 
 statement: statementBlockEl | ifStatement;
 
-commentStatement: COMMENT VARIABLE | COMMENT CONST ;
-
 ifStatement: matched | unmatched;
 
 loopStatement: forLoop | whileLoop ;
@@ -46,7 +44,7 @@ functionDec: FUNC VARIABLE parameterExp functionoutExp LB statements returnState
 			| FUNC VARIABLE parameterExp LB statements returnStatement RB
 			;
 
-functionCall: VARIABLE LP RP | VARIABLE LP callParamList RP | outStatement | inStatement | drone_method;
+functionCall: VARIABLE LP RP | VARIABLE LP callParamList RP | outStatement | inStatement | drone_method LP RP;
 
 outStatement: PRINT printables;
 
@@ -99,7 +97,7 @@ type: INTTYPE | DOUBLETYPE | STRINGTYPE | BOOLTYPE;
 
 statementBlocks: statementBlocks statementBlockEl | empty;
 
-statementBlockEl: commentStatement | declaration | assignment | loopStatement | functionCall;
+statementBlockEl: COMMENT | declaration | assignment | loopStatement | functionCall;
 
 empty: ;
 
