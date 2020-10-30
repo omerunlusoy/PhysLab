@@ -52,9 +52,7 @@ printables: printables COMMA assignmentExp | assignmentExp;
 
 inStatement: VARIABLE ASSIGN SCAN;
 
-drone_method: droneGetMethod | cameraStatus | takePicture | connect | disconnect;
-
-droneGetMethod: droneGet;
+drone_method: droneGet | cameraStatus | takePicture | connect | disconnect;
 
 droneGet: GETACCELERATION | GETALTITUDE | GETINCLINATION | GETTEMPERATURE | GETTIMESTAMP;
 
