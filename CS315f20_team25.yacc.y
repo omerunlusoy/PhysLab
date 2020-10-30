@@ -29,14 +29,15 @@ forLoop: FOR VARIABLE IN forTerm FORDOT forTerm forStepExp LB statements RB | FO
 
 whileLoop: WHILE logicCondition LB statements RB;
 
-assignment: VARIABLE ASSIGN assignmentExp;
+assignment: VARIABLE ASSIGN logicCondition | VARIABLE ASSIGN STRING;
 
 declaration: constantDec | variableDec | functionDec;
 
-constantDec: CONST type COLON CONSTANT ASSIGN assignmentExp;
+constantDec: CONST type COLON CONSTANT ASSIGN logicCondition | CONST type COLON CONSTANT ASSIGN STRING;
 
 variableDec: type COLON VARIABLE 
-			| type COLON VARIABLE ASSIGN assignmentExp
+			| type COLON VARIABLE ASSIGN logicCondition 
+			| type COLON VARIABLE ASSIGN STRING
 			| type COLON VARIABLE ASSIGN SCAN
 			;
 
@@ -48,7 +49,7 @@ functionCall: VARIABLE LP RP | VARIABLE LP callParamList RP | outStatement | inS
 
 outStatement: PRINT printables;
 
-printables: printables COMMA assignmentExp | assignmentExp;
+printables: printables COMMA logicCondition | printables COMMA STRING | logicCondition | STRING;
 
 inStatement: VARIABLE ASSIGN SCAN;
 
@@ -64,13 +65,11 @@ connect: CONNECT;
 
 disconnect: DISCONNECT;
 
-returnStatement: RETURN assignmentExp | empty;
+returnStatement: RETURN logicCondition | RETURN STRING | empty;
 
-assignmentExp: logicCondition | STRING;
+logicCondition: logicCondition logicOp notNonLogicExp | notNonLogicExp;
 
-logicCondition: logicCondition logicOp not_nonLogicExp | not_nonLogicExp;
-
-not_nonLogicExp: NOT nonLogicExp | nonLogicExp;
+notNonLogicExp: NOT nonLogicExp | nonLogicExp;
 
 nonLogicExp: functionCall | BOOLEAN | arithmeticExp;
 
